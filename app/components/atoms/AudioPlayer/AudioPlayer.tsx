@@ -1,6 +1,7 @@
 import { Pause, Play, Volume2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Button } from "~/components/ui/button";
+import { useGlobalAudio } from "~/providers/GlobalAudioProvider";
 
 interface AudioPlayerProps {
 	label: string;
@@ -8,29 +9,44 @@ interface AudioPlayerProps {
 }
 
 const AudioPlayer = ({ label, src }: AudioPlayerProps) => {
+	const playerId = useId();
 	const [playing, setPlaying] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const audioRef = useRef<HTMLAudioElement>(null);
+	const { activePlayerId, play, clearIfActive } = useGlobalAudio();
 
-	const toggle = () => {
+	const toggle = async () => {
 		if (!audioRef.current) return;
 		if (playing) {
 			audioRef.current.pause();
 		} else {
-			audioRef.current.play();
+			try {
+				await play(playerId, audioRef.current);
+			} catch {
+				setPlaying(false);
+			}
 		}
-		setPlaying(!playing);
 	};
 
 	const onTimeUpdate = () => {
 		if (!audioRef.current) return;
 		const p = (audioRef.current.currentTime / audioRef.current.duration) * 100;
-		setProgress(isNaN(p) ? 0 : p);
+		setProgress(Number.isNaN(p) ? 0 : p);
 	};
 
 	const onEnded = () => {
 		setPlaying(false);
 		setProgress(0);
+		clearIfActive(playerId);
+	};
+
+	const onPlay = () => {
+		setPlaying(true);
+	};
+
+	const onPause = () => {
+		setPlaying(false);
+		clearIfActive(playerId);
 	};
 
 	return (
@@ -40,6 +56,8 @@ const AudioPlayer = ({ label, src }: AudioPlayerProps) => {
 				src={src}
 				onTimeUpdate={onTimeUpdate}
 				onEnded={onEnded}
+				onPlay={onPlay}
+				onPause={onPause}
 			/>
 			<Button
 				size="icon"
@@ -47,7 +65,11 @@ const AudioPlayer = ({ label, src }: AudioPlayerProps) => {
 				className="h-8 w-8 shrink-0"
 				onClick={toggle}
 			>
-				{playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+				{playing && activePlayerId === playerId ? (
+					<Pause className="h-4 w-4" />
+				) : (
+					<Play className="h-4 w-4" />
+				)}
 			</Button>
 			<div className="flex-1 min-w-0">
 				<div className="flex items-center gap-2 mb-1">
