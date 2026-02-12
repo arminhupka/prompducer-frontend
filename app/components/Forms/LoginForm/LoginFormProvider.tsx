@@ -1,5 +1,6 @@
 import { RHFZProvider } from "@netri0t/rhfz";
 import type { ReactNode } from "react";
+import { useNavigate } from "react-router";
 import z from "zod";
 import { useLogin } from "~/queries/auth";
 
@@ -15,8 +16,12 @@ const Schema = z.object({
 type SchemaType = z.infer<typeof Schema>;
 
 const LoginFormProvider = ({ children }: IProps) => {
+	const navigate = useNavigate();
+
 	const login = useLogin({
-		onSuccess: () => window.location.assign("/account"),
+		onSuccess: () => {
+			navigate("/account", { replace: true });
+		},
 	});
 
 	const defaultValues: SchemaType = {
