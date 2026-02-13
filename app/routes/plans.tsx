@@ -1,3 +1,4 @@
+import { apiClient } from "~/lib/apiClient";
 import PlansPage from "~/pages/PlansPage/PlansPage";
 
 export interface IPlan {
@@ -20,10 +21,10 @@ export function meta() {
 }
 
 export async function clientLoader(): Promise<IPlan[]> {
-	const fetcher = await fetch("http://localhost:8888/plans");
+	const { data } = await apiClient.get<IPlan[]>("/plans");
 
-	if (fetcher.ok) {
-		return fetcher.json();
+	if (data) {
+		return data;
 	}
 
 	return [];
