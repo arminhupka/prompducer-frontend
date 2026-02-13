@@ -45,9 +45,11 @@ const PlanInfo = () => {
 						<Badge className="bg-primary text-primary-foreground">
 							{user?.subscription?.plan?.name ?? "Non active"}
 						</Badge>
-						<Badge className={statusClasses(user?.subscription?.status)}>
-							{user?.subscription?.status ?? "No subscription"}
-						</Badge>
+						{user?.subscription?.status === "ACTIVE" && (
+							<Badge className={statusClasses(user?.subscription?.status)}>
+								{user?.subscription?.status ?? "No subscription"}
+							</Badge>
+						)}
 					</div>
 				</div>
 			</CardHeader>
