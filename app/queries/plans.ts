@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import type { ActivatePlanResponseDto } from "api/api-types";
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
 import { apiClient } from "~/lib/apiClient";
@@ -9,6 +10,30 @@ import { setUser } from "~/stores/authStore";
 interface IUseDeactivatePlanMutation {
 	onSuccess?: () => void | Promise<void>;
 }
+
+interface IUseActivatePlanMutation {
+	onSuccess?: () => void | Promise<void>;
+}
+
+export const useActivatePlan = (props?: IUseActivatePlanMutation) =>
+	useMutation<ActivatePlanResponseDto, AxiosError, string>({
+		mutationFn: async (planId) => {
+			const { data } = await apiClient.post<ActivatePlanResponseDto>(
+				`/plans/activate/${planId}`,
+			);
+			return data;
+		},
+		onSuccess: async (data) => {
+			if (data.url) {
+				await props?.onSuccess?.();
+				window.location.assign(data.url);
+				return;
+			}
+
+			toast.error("Could not start checkout session");
+			await props?.onSuccess?.();
+		},
+	});
 
 export const useDeactivatePlan = (props?: IUseDeactivatePlanMutation) =>
 	useMutation<void, AxiosError>({

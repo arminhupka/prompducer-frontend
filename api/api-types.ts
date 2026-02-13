@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-export interface CreatePlanDto {
+export interface UpsertPlanDto {
   /**
    * @minLength 3
    * @maxLength 16
@@ -174,9 +174,9 @@ export interface MeSubscriptionResponseDto {
   credits: number;
   /**
    * @format date-time
-   * @example "2026-12-31T23:59:59.000Z"
+   * @example "2026-03-13T17:37:29.000Z"
    */
-  activeUntil?: string | null;
+  nextPaymentDate?: string | null;
   plan?: MePlanResponseDto | null;
 }
 
@@ -504,7 +504,7 @@ export class Api<
      * @secure
      */
     plansControllerCreatePlan: (
-      data: CreatePlanDto,
+      data: UpsertPlanDto,
       params: RequestParams = {},
     ) =>
       this.request<PlanResponseDto, void>({
@@ -530,6 +530,47 @@ export class Api<
         path: `/plans`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Plans
+     * @name PlansControllerUpdatePlan
+     * @summary Update subscription plan
+     * @request PUT:/plans/{id}
+     * @secure
+     */
+    plansControllerUpdatePlan: (
+      id: string,
+      data: UpsertPlanDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<PlanResponseDto, void>({
+        path: `/plans/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Plans
+     * @name PlansControllerDeletePlan
+     * @summary Delete subscription plan
+     * @request DELETE:/plans/{id}
+     * @secure
+     */
+    plansControllerDeletePlan: (id: string, params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/plans/${id}`,
+        method: "DELETE",
+        secure: true,
         ...params,
       }),
 

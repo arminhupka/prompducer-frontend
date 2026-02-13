@@ -14,12 +14,12 @@ const AppHeader = () => {
 	return (
 		<header className="border-b py-4 bg-card drop-shadow-xl/5">
 			<div className="container mx-auto flex justify-between items-center">
-				<h1 className="text-2xl font-semibold">
+				<h1 className="text-2xl font-semibold text-primary">
 					{import.meta.env.VITE_APP_NAME}
 				</h1>
 				{user ? (
 					<div className="flex items-center gap-3">
-						<p>{user.email}</p>
+						<span className="text-sm">{user.email}</span>
 						<Button className="cursor-pointer" onClick={handleLogout}>
 							Logout
 						</Button>

@@ -1,15 +1,17 @@
-﻿import { CalendarClock, Coins, CreditCard, TrendingUp } from "lucide-react";
+﻿import clsx from "clsx";
+import { CalendarClock, Coins, CreditCard, TrendingUp } from "lucide-react";
 import { DateTime } from "luxon";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
-import { useDeactivatePlan } from "~/queries/plans";
+import { useActivatePlan, useDeactivatePlan } from "~/queries/plans";
 import { useAuthStore } from "~/stores/authStore";
 
 const PlanInfo = () => {
 	const { user } = useAuthStore();
 	const planDeactivate = useDeactivatePlan();
+	const planActivate = useActivatePlan();
 
 	const dateFormatter = (date: string | null | undefined) => {
 		if (!date) return "-";
@@ -24,6 +26,13 @@ const PlanInfo = () => {
 		return price ? formatter.format(price / 100) : "-";
 	};
 
+	const statusClasses = (status: "ACTIVE" | "CANCELED" | "NONE" | undefined) =>
+		clsx("bg-primary text-primary-foreground", {
+			"bg-green-500": status === "ACTIVE",
+			"bg-red-500": status === "CANCELED",
+			"bg-gray-500": status === "NONE",
+		});
+
 	return (
 		<Card className="border border-border bg-card shadow-sm gap-0">
 			<CardHeader className="pb-2">
@@ -32,9 +41,14 @@ const PlanInfo = () => {
 						<CreditCard className="h-4 w-4 text-primary" />
 						Subscription
 					</CardTitle>
-					<Badge className="bg-primary text-primary-foreground">
-						{user?.subscription?.plan?.name ?? "Non active"}
-					</Badge>
+					<div className="space-x-2">
+						<Badge className="bg-primary text-primary-foreground">
+							{user?.subscription?.plan?.name ?? "Non active"}
+						</Badge>
+						<Badge className={statusClasses(user?.subscription?.status)}>
+							{user?.subscription?.status ?? "No subscription"}
+						</Badge>
+					</div>
 				</div>
 			</CardHeader>
 			<CardContent className="space-y-4">
@@ -70,7 +84,7 @@ const PlanInfo = () => {
 							Next payment
 						</span>
 						<span className="font-medium text-card-foreground">
-							{dateFormatter(user?.subscription?.activeUntil)}
+							{dateFormatter(user?.subscription?.nextPaymentDate)}
 						</span>
 					</div>
 					<div className="flex items-center justify-between text-sm">
@@ -86,13 +100,19 @@ const PlanInfo = () => {
 
 				<Separator />
 
-				{!user?.subscription?.plan && (
-					<Button size="lg" className="w-full">
+				{user?.subscription?.status !== "ACTIVE" && (
+					<Button
+						size="lg"
+						className="w-full"
+						onClick={() => {
+							planActivate.mutate("5ad1c187-66d5-4ea4-8ba6-82be9c25cde4");
+						}}
+					>
 						Subscribe
 					</Button>
 				)}
 
-				{user?.subscription?.plan && (
+				{user?.subscription?.status === "ACTIVE" && (
 					<Button
 						size="lg"
 						variant="outline"
