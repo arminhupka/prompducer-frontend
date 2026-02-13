@@ -10,9 +10,119 @@
  * ---------------------------------------------------------------
  */
 
-export type CreatePlanDto = object;
+export interface CreatePlanDto {
+  /**
+   * @minLength 3
+   * @maxLength 16
+   * @example "Pro"
+   */
+  name: string;
+  /**
+   * @maxLength 255
+   * @example "Best plan for regular creators with monthly credits."
+   */
+  description: string;
+  /**
+   * @min 1
+   * @example 1999
+   */
+  price: number;
+  /**
+   * @min 1
+   * @example 1000
+   */
+  credits: number;
+}
 
-export type GenerateAudioDto = object;
+export interface PlanResponseDto {
+  /**
+   * @format uuid
+   * @example "8a0f2b24-8c6b-47fb-92b5-a95e6f4309a0"
+   */
+  id: string;
+  /** @example "Pro" */
+  name: string;
+  /** @example "Best plan for regular creators" */
+  description: string;
+  /** @example 1999 */
+  price: number;
+  /** @example 1000 */
+  credits: number;
+  /** @example false */
+  featured: boolean;
+  /** @example ["Commercial license","Priority generation"] */
+  features: string[];
+  /**
+   * @format date-time
+   * @example "2026-02-12T10:00:00.000Z"
+   */
+  createdAt: string;
+  /**
+   * @format date-time
+   * @example "2026-02-12T10:00:00.000Z"
+   */
+  updatedAt: string;
+}
+
+export interface ActivatePlanResponseDto {
+  /** @example "https://checkout.stripe.com/c/pay/cs_test_123456789" */
+  url: string | null;
+}
+
+export interface PromptFileResponseDto {
+  /**
+   * @format uuid
+   * @example "f8d7ce4d-3a8d-4f48-8f67-2e619e7ca0a4"
+   */
+  id: string;
+  /** @example "generated-track.wav" */
+  fileName: string;
+  /** @example "audio/generated-track.wav" */
+  key: string;
+  /**
+   * @format date-time
+   * @example "2026-02-12T10:00:00.000Z"
+   */
+  createdAt: string;
+}
+
+export interface GeneratedPromptResponseDto {
+  /**
+   * @format uuid
+   * @example "2d7f8f78-8bd2-4e6c-9f97-bac3e3a2e55d"
+   */
+  id: string;
+  /** @example "Trap beat with deep 808 and dark melody" */
+  prompt: string;
+  /** @example "PENDING" */
+  status: "PENDING" | "FINISHED";
+  /**
+   * @format date-time
+   * @example "2026-02-12T10:00:00.000Z"
+   */
+  createdAt: string;
+  /**
+   * @format uuid
+   * @example "9af2c77c-08bb-4890-9a77-e16ca95f89d7"
+   */
+  authorId: string;
+  files: PromptFileResponseDto[];
+}
+
+export interface GenerateAudioDto {
+  /** @example "Trap beat with deep 808 and dark melody" */
+  prompt: string;
+}
+
+export interface GenerateSoundResponseDto {
+  /**
+   * @format uuid
+   * @example "2d7f8f78-8bd2-4e6c-9f97-bac3e3a2e55d"
+   */
+  id: string;
+  /** @example "Trap beat with deep 808 and dark melody" */
+  prompt: string;
+}
 
 export interface CreateUserDto {
   /**
@@ -30,19 +140,6 @@ export interface CreateUserDto {
    * @example "StrongPassword123!"
    */
   passwordConfirmation: string;
-}
-
-export interface RegisterResponseDto {
-  /**
-   * @format uuid
-   * @example "2d7f8f78-8bd2-4e6c-9f97-bac3e3a2e55d"
-   */
-  id: string;
-  /**
-   * @format email
-   * @example "user@example.com"
-   */
-  email: string;
 }
 
 export interface LoginDto {
@@ -95,11 +192,52 @@ export interface MeResponseDto {
    */
   email: string;
   subscription?: MeSubscriptionResponseDto | null;
+  /** @example 350 */
+  totalUsedCredits: number;
 }
 
-export type CreateCouponsDto = object;
+export interface CreateCouponsDto {
+  /**
+   * @min 1
+   * @max 1000
+   * @example 20
+   */
+  amount: number;
+  /**
+   * @min 1
+   * @example 200
+   */
+  tokens: number;
+}
 
-export type UseCouponDto = object;
+export interface CouponResponseDto {
+  /**
+   * @format uuid
+   * @example "8a0f2b24-8c6b-47fb-92b5-a95e6f4309a0"
+   */
+  id: string;
+  /** @example "PROMP-7H2K-9D1Q" */
+  code: string;
+  /** @example 200 */
+  tokens: number;
+  /** @example false */
+  used: boolean;
+  /**
+   * @format date-time
+   * @example "2026-02-12T10:00:00.000Z"
+   */
+  createdAt: string;
+  /**
+   * @format date-time
+   * @example "2026-02-12T10:00:00.000Z"
+   */
+  updatedAt: string;
+}
+
+export interface UseCouponDto {
+  /** @example "PROMP-7H2K-9D1Q" */
+  code: string;
+}
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -363,16 +501,19 @@ export class Api<
      * @name PlansControllerCreatePlan
      * @summary Creating new subscription plan
      * @request POST:/plans
+     * @secure
      */
     plansControllerCreatePlan: (
       data: CreatePlanDto,
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<PlanResponseDto, void>({
         path: `/plans`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -385,9 +526,10 @@ export class Api<
      * @request GET:/plans
      */
     plansControllerGetPlans: (params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<PlanResponseDto[], any>({
         path: `/plans`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -398,11 +540,14 @@ export class Api<
      * @name PlansControllerActivatePlan
      * @summary Activate subscription plan
      * @request POST:/plans/activate/{id}
+     * @secure
      */
     plansControllerActivatePlan: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<ActivatePlanResponseDto, void>({
         path: `/plans/activate/${id}`,
         method: "POST",
+        secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -413,11 +558,13 @@ export class Api<
      * @name PlansControllerDeactivatePlan
      * @summary Deactivate subscription plan
      * @request POST:/plans/deactivate
+     * @secure
      */
     plansControllerDeactivatePlan: (params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/plans/deactivate`,
         method: "POST",
+        secure: true,
         ...params,
       }),
   };
@@ -452,6 +599,25 @@ export class Api<
         ...params,
       }),
   };
+  prompts = {
+    /**
+     * No description
+     *
+     * @tags Prompts
+     * @name PromptsControllerGetUserPrompts
+     * @summary Get current user prompts
+     * @request GET:/prompts
+     * @secure
+     */
+    promptsControllerGetUserPrompts: (params: RequestParams = {}) =>
+      this.request<GeneratedPromptResponseDto[], void>({
+        path: `/prompts`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
   generate = {
     /**
      * No description
@@ -460,16 +626,19 @@ export class Api<
      * @name GenerateControllerGenerateSound
      * @summary Generate new sound
      * @request POST:/generate
+     * @secure
      */
     generateControllerGenerateSound: (
       data: GenerateAudioDto,
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<GenerateSoundResponseDto, void>({
         path: `/generate`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -480,14 +649,17 @@ export class Api<
      * @name GenerateControllerGetGeneratedPrompt
      * @summary Get current state of generated sound job
      * @request GET:/generate/{id}
+     * @secure
      */
     generateControllerGetGeneratedPrompt: (
       id: string,
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<GeneratedPromptResponseDto, void>({
         path: `/generate/${id}`,
         method: "GET",
+        secure: true,
+        format: "json",
         ...params,
       }),
   };
@@ -501,12 +673,11 @@ export class Api<
      * @request POST:/auth/register
      */
     authControllerRegister: (data: CreateUserDto, params: RequestParams = {}) =>
-      this.request<RegisterResponseDto, void>({
+      this.request<void, void>({
         path: `/auth/register`,
         method: "POST",
         body: data,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -554,16 +725,19 @@ export class Api<
      * @name CouponsControllerCreateCoupons
      * @summary Generate coupons
      * @request POST:/coupons/create
+     * @secure
      */
     couponsControllerCreateCoupons: (
       data: CreateCouponsDto,
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<CouponResponseDto[], void>({
         path: `/coupons/create`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -574,15 +748,17 @@ export class Api<
      * @name CouponsControllerUseCoupon
      * @summary Use coupon
      * @request POST:/coupons
+     * @secure
      */
     couponsControllerUseCoupon: (
       data: UseCouponDto,
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<void, void>({
         path: `/coupons`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         ...params,
       }),

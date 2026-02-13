@@ -1,24 +1,20 @@
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
+import { clearUser, useAuthStore } from "~/stores/authStore";
 
-interface IAppHeaderProps {
-	user: {
-		id: string;
-		email: string;
-		credits: number;
-	} | null;
-}
+const AppHeader = () => {
+	const user = useAuthStore((state) => state.user);
 
-const AppHeader = ({ user }: IAppHeaderProps) => {
 	const handleLogout = () => {
 		localStorage.removeItem("token");
+		clearUser();
 		window.location.assign("/login");
 	};
 
 	return (
 		<header className="border-b py-4 bg-card drop-shadow-xl/5">
 			<div className="container mx-auto flex justify-between items-center">
-				<h1 className="text-2xl font-semibold text-primary">
+				<h1 className="text-2xl font-semibold">
 					{import.meta.env.VITE_APP_NAME}
 				</h1>
 				{user ? (

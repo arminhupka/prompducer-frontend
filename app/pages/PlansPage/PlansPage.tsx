@@ -1,6 +1,6 @@
 import {nanoid} from "nanoid";
 import {useRouteLoaderData} from "react-router";
-import PlanCard from "~/components/PlanCard/PlanCard";
+import PlanCard from "~/components/molecules/PlanCard/PlanCard";
 import type {IPlan} from "~/routes/plans";
 
 export default function PlansPage() {

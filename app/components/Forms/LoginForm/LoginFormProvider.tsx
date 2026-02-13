@@ -2,7 +2,8 @@ import { RHFZProvider } from "@netri0t/rhfz";
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router";
 import z from "zod";
-import { useLogin } from "~/queries/auth";
+import { useGetMe, useLogin } from "~/queries/auth";
+import { clearUser, setUser } from "~/stores/authStore";
 
 interface IProps {
 	children: ReactNode;
@@ -17,9 +18,18 @@ type SchemaType = z.infer<typeof Schema>;
 
 const LoginFormProvider = ({ children }: IProps) => {
 	const navigate = useNavigate();
+	const { refetch: refetchMe } = useGetMe({ enabled: false });
 
 	const login = useLogin({
-		onSuccess: () => {
+		onSuccess: async () => {
+			const me = await refetchMe();
+
+			if (me.data) {
+				setUser(me.data);
+			} else {
+				clearUser();
+			}
+
 			navigate("/account", { replace: true });
 		},
 	});
