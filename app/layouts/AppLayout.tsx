@@ -4,7 +4,6 @@ import { Outlet } from "react-router";
 import { Toaster } from "sonner";
 import AppFooter from "~/components/molecules/AppFooter/AppFooter";
 import AppHeader from "~/components/molecules/AppHeader/AppHeader";
-import { getMe } from "~/queries/auth";
 import { clearUser, setUser } from "~/stores/authStore";
 import type { Route } from "./+types/AppLayout";
 
@@ -15,11 +14,17 @@ export async function clientLoader(): Promise<MeResponseDto | null> {
 		return null;
 	}
 
-	try {
-		return await getMe();
-	} catch {
-		return null;
+	const resp = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	if (resp.ok) {
+		return resp.json() as Promise<MeResponseDto>;
 	}
+
+	return null;
 }
 
 const AppLayout = ({ loaderData }: Route.ComponentProps) => {
