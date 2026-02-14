@@ -1,11 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
-import type { ActivatePlanResponseDto } from "api/api-types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type { ActivatePlanResponseDto, PlanResponseDto } from "api/api-types";
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
 import { apiClient } from "~/lib/apiClient";
 import { queryClient } from "~/lib/queryClient";
 import { getMe } from "~/queries/auth";
 import { setUser } from "~/stores/authStore";
+
+export const usePlans = () =>
+	useQuery<PlanResponseDto[]>({
+		queryKey: ["plans"],
+		queryFn: async () => {
+			const { data } = await apiClient.get<PlanResponseDto[]>("/plans");
+			return data;
+		},
+	});
 
 interface IUseDeactivatePlanMutation {
 	onSuccess?: () => void | Promise<void>;

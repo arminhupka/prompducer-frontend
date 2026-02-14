@@ -5,13 +5,14 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
-import { useActivatePlan, useDeactivatePlan } from "~/queries/plans";
+import { useActivatePlan, useDeactivatePlan, usePlans } from "~/queries/plans";
 import { useAuthStore } from "~/stores/authStore";
 
 const PlanInfo = () => {
 	const { user } = useAuthStore();
 	const planDeactivate = useDeactivatePlan();
 	const planActivate = useActivatePlan();
+	const plans = usePlans();
 
 	const dateFormatter = (date: string | null | undefined) => {
 		if (!date) return "-";
@@ -102,17 +103,20 @@ const PlanInfo = () => {
 
 				<Separator />
 
-				{user?.subscription?.status !== "ACTIVE" && (
-					<Button
-						size="lg"
-						className="w-full"
-						onClick={() => {
-							planActivate.mutate("5ad1c187-66d5-4ea4-8ba6-82be9c25cde4");
-						}}
-					>
-						Subscribe
-					</Button>
-				)}
+				{user?.subscription?.status !== "ACTIVE" &&
+					plans.data?.map((plan) => (
+						<Button
+							key={plan.id}
+							size="lg"
+							className="w-full"
+							onClick={() => {
+								planActivate.mutate(plan.id);
+							}}
+						>
+							Get {plan.name} ({priceFormatter(plan.price)}/month) with{" "}
+							{plan.credits} tokens
+						</Button>
+					))}
 
 				{user?.subscription?.status === "ACTIVE" && (
 					<Button

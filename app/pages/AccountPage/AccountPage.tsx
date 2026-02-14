@@ -8,8 +8,8 @@ const AccountPage = () => {
 	const prompts = useGetPrompts();
 
 	return (
-		<div className="flex min-h-0 flex-col gap-6 lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_360px]">
-			<div className="order-2 flex min-h-0 flex-col lg:order-1">
+		<div className="flex min-h-0 flex-col gap-6 lg:grid lg:h-full lg:grid-cols-6">
+			<div className="order-2 flex min-h-0 flex-col lg:order-1 lg:col-span-4">
 				<h2 className="mb-4 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
 					Prompt history ({prompts.data?.length})
 				</h2>
@@ -22,7 +22,7 @@ const AccountPage = () => {
 				</ScrollArea>
 			</div>
 
-			<div className="order-1 space-y-2 lg:order-2">
+			<div className="order-1 space-y-2 lg:order-2 lg:col-span-2">
 				<h2 className="mb-4 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
 					Your subscription
 				</h2>
