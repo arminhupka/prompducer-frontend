@@ -3,7 +3,7 @@ import { redirectAuthenticatedUser } from "~/lib/routeGuards";
 
 export function meta() {
 	return [
-		{ title: "Prompducer Register" },
+		{ title: "SUMMONIC Register" },
 		{ name: "description", content: "Welcome to React Router!" },
 	];
 }

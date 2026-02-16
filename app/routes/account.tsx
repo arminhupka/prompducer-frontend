@@ -3,7 +3,7 @@ import AccountPage from "~/pages/AccountPage/AccountPage";
 
 export function meta() {
 	return [
-		{ title: "Prompducer Account" },
+		{ title: "SUMMONIC Account" },
 		{ name: "description", content: "Welcome to React Router!" },
 	];
 }

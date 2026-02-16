@@ -3,7 +3,7 @@ import ResetPasswordPage from "~/pages/ResetPasswordPage/ResetPasswordPage";
 
 export function meta() {
 	return [
-		{ title: "Prompducer Reset Password" },
+		{ title: "SUMMONIC Reset Password" },
 		{ name: "description", content: "Reset your password." },
 	];
 }
