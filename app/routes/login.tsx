@@ -1,17 +1,5 @@
 import LoginPage from "~/pages/LoginPage/LoginPage";
-import { redirect } from "react-router";
-
-export interface IPlan {
-	id: string;
-	name: string;
-	description: string;
-	price: number;
-	credits: number;
-	featured: boolean;
-	features: string[];
-	createdAt: string;
-	updatedAt: string;
-}
+import { redirectAuthenticatedUser } from "~/lib/routeGuards";
 
 export function meta() {
 	return [
@@ -21,13 +9,7 @@ export function meta() {
 }
 
 export async function clientLoader() {
-	const token = localStorage.getItem("token");
-
-	if (token) {
-		return redirect("/account");
-	}
-
-	return null;
+	return redirectAuthenticatedUser();
 }
 
 export default function Plans() {

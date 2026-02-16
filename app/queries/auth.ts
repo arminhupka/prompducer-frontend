@@ -4,8 +4,10 @@ import type {
 	LoginDto,
 	LoginResponseDto,
 	MeResponseDto,
+	ResetPasswordDto,
 } from "api/api-types";
 import type { AxiosError } from "axios";
+import { toast } from "sonner";
 import { apiClient } from "~/lib/apiClient";
 
 interface IUseAuthMutation {
@@ -37,6 +39,22 @@ export const useLogin = (props?: IUseAuthMutation) =>
 				password: form.password,
 			});
 			localStorage.setItem("token", data.token);
+			return data;
+		},
+		onSuccess: props?.onSuccess,
+		onError: (error) => {
+			if (error.status === 404) {
+				toast.error("User not found or not exist");
+			}
+		},
+	});
+
+export const useResetPassword = (props?: IUseAuthMutation) =>
+	useMutation<void, AxiosError, ResetPasswordDto>({
+		mutationFn: async (form) => {
+			const { data } = await apiClient.post<void>("/auth/reset-password", {
+				email: form.email,
+			});
 			return data;
 		},
 		onSuccess: props?.onSuccess,

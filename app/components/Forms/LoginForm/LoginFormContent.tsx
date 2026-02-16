@@ -26,6 +26,15 @@ const LoginFormContent = () => {
 					Sign in to SUMMONIC
 				</Button>
 				<p className="text-sm text-muted-foreground">
+					Forgot password?{" "}
+					<Link
+						to="/reset-password"
+						className="text-primary underline-offset-4 hover:underline"
+					>
+						Reset it
+					</Link>
+				</p>
+				<p className="text-sm text-muted-foreground">
 					Don&apos;t have an account yet?{" "}
 					<Link
 						to="/register"

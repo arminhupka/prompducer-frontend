@@ -1,27 +1,31 @@
-{
-  "editor.defaultFormatter": "biomejs.biome",
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit",
-    "source.removeUnusedImports": "always"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  }
+﻿{
+    "editor.defaultFormatter":  "biomejs.biome",
+    "editor.formatOnSave":  true,
+    "editor.codeActionsOnSave":  {
+                                     "source.fixAll.biome":  "explicit",
+                                     "source.organizeImports.biome":  "explicit",
+                                     "source.removeUnusedImports":  "always"
+                                 },
+    "[javascript]":  {
+                         "editor.defaultFormatter":  "biomejs.biome"
+                     },
+    "[javascriptreact]":  {
+                              "editor.defaultFormatter":  "biomejs.biome"
+                          },
+    "[typescript]":  {
+                         "editor.defaultFormatter":  "biomejs.biome"
+                     },
+    "[typescriptreact]":  {
+                              "editor.defaultFormatter":  "biomejs.biome"
+                          },
+    "[json]":  {
+                   "editor.defaultFormatter":  "biomejs.biome"
+               },
+    "[jsonc]":  {
+                    "editor.defaultFormatter":  "biomejs.biome"
+                },
+    "chat.tools.global.autoApprove":  true,
+    "chat.tools.terminal.enableAutoApprove":  true,
+    "chat.tools.terminal.autoApprove":  true,
+    "chat.tools.terminal.ignoreDefaultAutoApproveRules":  false
 }

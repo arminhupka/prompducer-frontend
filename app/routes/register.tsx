@@ -1,18 +1,5 @@
-import Cookie from "js-cookie";
-import { redirect } from "react-router";
 import RegisterPage from "~/pages/RegisterPage/RegisterPage";
-
-export interface IPlan {
-	id: string;
-	name: string;
-	description: string;
-	price: number;
-	credits: number;
-	featured: boolean;
-	features: string[];
-	createdAt: string;
-	updatedAt: string;
-}
+import { redirectAuthenticatedUser } from "~/lib/routeGuards";
 
 export function meta() {
 	return [
@@ -22,13 +9,7 @@ export function meta() {
 }
 
 export async function clientLoader() {
-	const token = Cookie.get("token");
-
-	if (token) {
-		return redirect("/account");
-	}
-
-	return null;
+	return redirectAuthenticatedUser();
 }
 
 export default function Plans() {

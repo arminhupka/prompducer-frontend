@@ -1,5 +1,5 @@
+import { redirectUnauthenticatedUser } from "~/lib/routeGuards";
 import AccountPage from "~/pages/AccountPage/AccountPage";
-import { redirect } from "react-router";
 
 export function meta() {
 	return [
@@ -9,13 +9,7 @@ export function meta() {
 }
 
 export async function clientLoader() {
-	const token = localStorage.getItem("token");
-
-	if (!token) {
-		return redirect("/login");
-	}
-
-	return null;
+	return redirectUnauthenticatedUser();
 }
 
 export default function Plans() {

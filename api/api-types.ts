@@ -196,6 +196,14 @@ export interface MeResponseDto {
   totalUsedCredits: number;
 }
 
+export interface ResetPasswordDto {
+  /**
+   * @format email
+   * @example "johndoe@example.com"
+   */
+  email: string;
+}
+
 export interface CreateCouponsDto {
   /**
    * @min 1
@@ -755,6 +763,26 @@ export class Api<
         method: "GET",
         secure: true,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Auth
+     * @name AuthControllerResetPassword
+     * @summary Reset user password
+     * @request POST:/auth/reset-password
+     */
+    authControllerResetPassword: (
+      data: ResetPasswordDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/auth/reset-password`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
