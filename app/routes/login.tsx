@@ -3,8 +3,8 @@ import { redirectAuthenticatedUser } from "~/lib/routeGuards";
 
 export function meta() {
 	return [
-		{ title: "SUMMONIC Login" },
-		{ name: "description", content: "Welcome to React Router!" },
+		{ title: "Login | SUMMONIC" },
+		{ name: "description", content: "Sign in to your SUMMONIC account." },
 	];
 }
 

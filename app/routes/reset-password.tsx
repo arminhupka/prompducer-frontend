@@ -3,8 +3,11 @@ import ResetPasswordPage from "~/pages/ResetPasswordPage/ResetPasswordPage";
 
 export function meta() {
 	return [
-		{ title: "SUMMONIC Reset Password" },
-		{ name: "description", content: "Reset your password." },
+		{ title: "Reset Password | SUMMONIC" },
+		{
+			name: "description",
+			content: "Reset the password for your SUMMONIC account.",
+		},
 	];
 }
 

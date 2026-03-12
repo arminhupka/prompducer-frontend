@@ -2,8 +2,8 @@ import { redirect } from "react-router";
 
 export function meta() {
 	return [
-		{ title: "SUMMONIC" },
-		{ name: "description", content: "SUMMONIC" },
+		{ title: "Redirect | SUMMONIC" },
+		{ name: "description", content: "Redirecting to your SUMMONIC account." },
 	];
 }
 

@@ -3,8 +3,11 @@ import AccountPage from "~/pages/AccountPage/AccountPage";
 
 export function meta() {
 	return [
-		{ title: "SUMMONIC Account" },
-		{ name: "description", content: "Welcome to React Router!" },
+		{ title: "Account | SUMMONIC" },
+		{
+			name: "description",
+			content: "Manage your prompts and subscription in SUMMONIC.",
+		},
 	];
 }
 
