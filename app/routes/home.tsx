@@ -1,14 +1,16 @@
-import HomePage from "~/pages/HomePage/HomePage";
-import type { Route } from "./+types/home";
+import { redirect } from "react-router";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
 	return [
-		{ title: "New React Router App" },
-		{ name: "description", content: "Welcome to React Router!" },
+		{ title: "SUMMONIC" },
+		{ name: "description", content: "SUMMONIC" },
 	];
 }
 
-export default function Home() {
-	return <HomePage />;
+export async function clientLoader() {
+	return redirect("/account");
 }
-// Unexpected empty object pattern. (lint/correctness/noEmptyPattern)
+
+export default function Home() {
+	return null;
+}

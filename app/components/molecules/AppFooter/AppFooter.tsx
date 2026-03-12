@@ -7,10 +7,6 @@ const AppFooter = () => {
 						<h4 className="text-semibold text-xl font-semibold">
 							{import.meta.env.VITE_APP_NAME}
 						</h4>
-						<p className="text-muted-foreground text-xs">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex
-							nesciunt omnis vel!
-						</p>
 					</div>
 				</div>
 			</div>
