@@ -9,6 +9,7 @@ import type {
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
 import { apiClient } from "~/lib/apiClient";
+import { getApiErrorMessage } from "~/lib/getApiErrorMessage";
 
 interface IUseAuthMutation {
 	onSuccess?: () => void | Promise<void>;
@@ -29,6 +30,12 @@ export const useRegister = (props?: IUseAuthMutation) =>
 			return data;
 		},
 		onSuccess: props?.onSuccess,
+		onError: (error) => {
+			toast.error(
+				getApiErrorMessage(error) ??
+					"Unable to create account. Please try again.",
+			);
+		},
 	});
 
 export const useLogin = (props?: IUseAuthMutation) =>
@@ -43,9 +50,10 @@ export const useLogin = (props?: IUseAuthMutation) =>
 		},
 		onSuccess: props?.onSuccess,
 		onError: (error) => {
-			if (error.status === 404) {
-				toast.error("User not found or not exist");
-			}
+			toast.error(
+				getApiErrorMessage(error) ??
+					"Unable to sign in. Please check your email and password.",
+			);
 		},
 	});
 
@@ -58,6 +66,12 @@ export const useResetPassword = (props?: IUseAuthMutation) =>
 			return data;
 		},
 		onSuccess: props?.onSuccess,
+		onError: (error) => {
+			toast.error(
+				getApiErrorMessage(error) ??
+					"Unable to send password reset request. Please try again.",
+			);
+		},
 	});
 
 export const getMe = async (): Promise<MeResponseDto> => {

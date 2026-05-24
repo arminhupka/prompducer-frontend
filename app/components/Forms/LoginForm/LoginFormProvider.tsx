@@ -40,7 +40,7 @@ const LoginFormProvider = ({ children }: IProps) => {
 	};
 
 	const onSubmit = async (data: SchemaType) => {
-		login.mutate(data);
+		await login.mutateAsync(data);
 	};
 
 	return (

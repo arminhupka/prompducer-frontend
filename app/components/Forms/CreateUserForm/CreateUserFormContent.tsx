@@ -1,3 +1,6 @@
+import { useRHZPContex } from "@netri0t/rhfz";
+import { Loader2 } from "lucide-react";
+import { Link } from "react-router";
 import TextFormInput from "~/components/atoms/inputs/TextFormInput";
 import { Button } from "~/components/ui/button";
 import {
@@ -8,31 +11,58 @@ import {
 	CardHeader,
 	CardTitle,
 } from "~/components/ui/card";
-import { Link } from "react-router";
 
 const CreateUserFormContent = () => {
+	const { isSubmitting } = useRHZPContex();
+
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Create account in {import.meta.env.VITE_APP_NAME}</CardTitle>
-				<CardDescription>Start creating your music prompts</CardDescription>
+		<Card className="vst-shell gap-0 border-white/20 bg-black/30 py-0 text-white">
+			<CardHeader className="p-6 pb-4">
+				<CardTitle className="vst-display text-3xl text-white">
+					Create account
+				</CardTitle>
+				<CardDescription className="text-white/68">
+					Start creating your music prompts
+				</CardDescription>
 			</CardHeader>
-			<CardContent className="flex flex-col gap-5">
-				<TextFormInput name="email" label="E-mail" />
-				<TextFormInput name="password" type="password" label="Password" />
+			<CardContent className="flex flex-col gap-5 px-6">
+				<TextFormInput
+					name="email"
+					label="E-mail"
+					inputClassName="vst-input"
+					disabled={isSubmitting}
+				/>
+				<TextFormInput
+					name="password"
+					type="password"
+					label="Password"
+					inputClassName="vst-input"
+					disabled={isSubmitting}
+				/>
 				<TextFormInput
 					name="passwordConfirmation"
 					type="password"
 					label="Confirm password"
+					inputClassName="vst-input"
+					disabled={isSubmitting}
 				/>
 			</CardContent>
-			<CardFooter className="flex flex-col gap-3">
-				<Button type="submit" className="w-full cursor-pointer">
-					Create account
+			<CardFooter className="flex flex-col gap-3 px-6 pb-6 pt-5">
+				<Button
+					type="submit"
+					variant="ghost"
+					className="vst-button-primary h-12 w-full cursor-pointer"
+					disabled={isSubmitting}
+				>
+					{isSubmitting && <Loader2 className="animate-spin" />}
+					{isSubmitting ? "Creating account..." : "Create account"}
 				</Button>
-				<p className="text-sm text-muted-foreground">
+				<p className="text-sm text-white/65">
 					Already have an account?{" "}
-					<Link to="/login" className="text-primary underline-offset-4 hover:underline">
+					<Link
+						to="/login"
+						className="vst-link underline-offset-4 hover:underline"
+					>
 						Sign in
 					</Link>
 				</p>

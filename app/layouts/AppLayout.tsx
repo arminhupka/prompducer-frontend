@@ -2,7 +2,6 @@ import type { MeResponseDto } from "api/api-types";
 import { useEffect } from "react";
 import { Outlet } from "react-router";
 import { Toaster } from "sonner";
-import AppFooter from "~/components/molecules/AppFooter/AppFooter";
 import AppHeader from "~/components/molecules/AppHeader/AppHeader";
 import { clearUser, setUser } from "~/stores/authStore";
 import type { Route } from "./+types/AppLayout";
@@ -40,15 +39,17 @@ const AppLayout = ({ loaderData }: Route.ComponentProps) => {
 	}, [user]);
 
 	return (
-		<div className="min-h-svh flex flex-col overflow-hidden">
+		<div className="vst-stage min-h-svh overflow-hidden">
 			<Toaster />
-			<AppHeader />
-			<main className="flex-1 min-h-0 overflow-y-auto">
-				<div className="container h-full min-h-0 box-border py-12">
-					<Outlet />
-				</div>
-			</main>
-			<AppFooter />
+			<div className="relative z-10 flex min-h-svh flex-col">
+				<AppHeader />
+				<main className="min-h-0 flex-1 overflow-y-auto">
+					<div className="container box-border py-5 sm:py-8 lg:py-10">
+						<Outlet />
+					</div>
+				</main>
+			</div>
+			<div className="pointer-events-none fixed inset-x-0 bottom-0 z-0 h-32 bg-gradient-to-t from-black/40 to-transparent" />
 		</div>
 	);
 };

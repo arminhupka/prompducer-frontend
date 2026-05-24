@@ -29,7 +29,7 @@ const ResetPasswordFormProvider = ({ children }: IProps) => {
 	};
 
 	const onSubmit = async (data: SchemaType) => {
-		resetPassword.mutate(data);
+		await resetPassword.mutateAsync(data);
 	};
 
 	return (

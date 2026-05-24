@@ -1,7 +1,9 @@
 import { RHFZProvider } from "@netri0t/rhfz";
 import type { ReactNode } from "react";
+import { useNavigate } from "react-router";
 import z from "zod";
-import { useRegister } from "~/queries/auth";
+import { useGetMe, useLogin, useRegister } from "~/queries/auth";
+import { clearUser, setUser } from "~/stores/authStore";
 
 interface IProps {
 	children: ReactNode;
@@ -21,7 +23,10 @@ const Schema = z
 type SchemaType = z.infer<typeof Schema>;
 
 const CreateUserFormProvider = ({ children }: IProps) => {
+	const navigate = useNavigate();
+	const { refetch: refetchMe } = useGetMe({ enabled: false });
 	const register = useRegister({});
+	const login = useLogin({});
 
 	const defaultValues: SchemaType = {
 		email: "",
@@ -30,7 +35,21 @@ const CreateUserFormProvider = ({ children }: IProps) => {
 	};
 
 	const onSubmit = async (data: SchemaType) => {
-		register.mutate(data);
+		await register.mutateAsync(data);
+		await login.mutateAsync({
+			email: data.email,
+			password: data.password,
+		});
+
+		const me = await refetchMe();
+
+		if (me.data) {
+			setUser(me.data);
+		} else {
+			clearUser();
+		}
+
+		navigate("/account", { replace: true });
 	};
 
 	return (

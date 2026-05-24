@@ -17,22 +17,31 @@ const CouponContent = () => {
 	}, [isSubmittedSuccessfully, reset]);
 
 	return (
-		<Card className="border border-border bg-card shadow-sm gap-0">
-			<CardHeader className="pb-3">
-				<CardTitle className="text-base font-semibold text-card-foreground flex items-center gap-2">
-					<Ticket className="h-4 w-4 text-primary" />
+		<Card className="vst-panel gap-0 border-white/15 bg-black/25 py-0 text-white">
+			<CardHeader className="p-5 pb-3">
+				<CardTitle className="flex items-center gap-2 text-base font-semibold text-white">
+					<Ticket className="h-4 w-4 text-orange-200" />
 					Tokens coupon
 				</CardTitle>
 			</CardHeader>
-			<CardContent>
-				<p className="text-xs text-muted-foreground mb-3">
+			<CardContent className="px-5 pb-5">
+				<p className="mb-3 text-xs text-white/65">
 					Enter a coupon code to add extra tokens to your account.
 				</p>
 				<div className="flex gap-2 items-start">
 					<div className="flex-1">
-						<TextFormInput name="code" placeholder="Enter coupon code..." />
+						<TextFormInput
+							name="code"
+							placeholder="Enter coupon code..."
+							inputClassName="vst-input"
+						/>
 					</div>
-					<Button type="submit" size="sm" className="shrink-0">
+					<Button
+						type="submit"
+						size="sm"
+						variant="ghost"
+						className="vst-button-primary shrink-0"
+					>
 						Apply
 					</Button>
 				</div>
