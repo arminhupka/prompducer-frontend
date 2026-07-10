@@ -54,6 +54,7 @@ const AudioPlayer = ({ label, src }: AudioPlayerProps) => {
 			<audio
 				ref={audioRef}
 				src={src}
+				preload="metadata"
 				onTimeUpdate={onTimeUpdate}
 				onEnded={onEnded}
 				onPlay={onPlay}

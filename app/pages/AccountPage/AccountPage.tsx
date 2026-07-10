@@ -1,15 +1,26 @@
-import { Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { useState } from "react";
 import Coupon from "~/components/molecules/Coupon/Coupon";
 import PlanInfo from "~/components/molecules/PlanInfo/PlanInfo";
 import PromptItem from "~/components/molecules/PromptItem/PromptItem";
+import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { useGetPrompts } from "~/queries/prompts";
 import { useAuthStore } from "~/stores/authStore";
 
+const PROMPTS_PER_PAGE = 5;
+
 const AccountPage = () => {
+	const [page, setPage] = useState(1);
 	const prompts = useGetPrompts();
 	const user = useAuthStore((state) => state.user);
 	const promptCount = prompts.data?.length ?? 0;
+	const totalPages = Math.max(1, Math.ceil(promptCount / PROMPTS_PER_PAGE));
+	const currentPage = Math.min(page, totalPages);
+	const visiblePrompts = prompts.data?.slice(
+		(currentPage - 1) * PROMPTS_PER_PAGE,
+		currentPage * PROMPTS_PER_PAGE,
+	);
 
 	return (
 		<section className="vst-shell mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
@@ -85,16 +96,59 @@ const AccountPage = () => {
 						</div>
 						<ScrollArea className="pr-2 lg:max-h-[34rem]">
 							<div className="space-y-3 pr-2">
-								{prompts.data?.map((prompt) => (
+								{visiblePrompts?.map((prompt) => (
 									<PromptItem key={prompt.id} prompt={prompt} />
 								))}
-								{!prompts.isLoading && promptCount === 0 && (
+								{prompts.isLoading && (
 									<div className="rounded-xl border border-dashed border-white/20 px-4 py-10 text-center text-sm text-white/65">
-										No prompt history yet.
+										Loading prompt history...
 									</div>
 								)}
+								{prompts.isError && (
+									<div className="rounded-xl border border-rose-300/25 bg-rose-500/10 px-4 py-10 text-center text-sm text-rose-100">
+										Prompt history could not be loaded.
+									</div>
+								)}
+								{!prompts.isLoading &&
+									!prompts.isError &&
+									promptCount === 0 && (
+										<div className="rounded-xl border border-dashed border-white/20 px-4 py-10 text-center text-sm text-white/65">
+											No prompt history yet.
+										</div>
+									)}
 							</div>
 						</ScrollArea>
+						{promptCount > PROMPTS_PER_PAGE && (
+							<div className="mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4">
+								<p className="text-xs text-white/60">
+									Page {currentPage} of {totalPages}
+								</p>
+								<div className="flex gap-2">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										className="border-white/15 bg-white/5 text-white hover:bg-white/15 hover:text-white"
+										onClick={() => setPage(currentPage - 1)}
+										disabled={currentPage === 1}
+									>
+										<ChevronLeft className="size-4" />
+										Previous
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										className="border-white/15 bg-white/5 text-white hover:bg-white/15 hover:text-white"
+										onClick={() => setPage(currentPage + 1)}
+										disabled={currentPage === totalPages}
+									>
+										Next
+										<ChevronRight className="size-4" />
+									</Button>
+								</div>
+							</div>
+						)}
 					</div>
 
 					<aside className="space-y-4">

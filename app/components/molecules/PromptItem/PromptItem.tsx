@@ -9,6 +9,13 @@ interface PromptItemProps {
 	prompt: GeneratedPromptResponseDto;
 }
 
+const getAudioSource = (fileId: string, key: string) => {
+	if (/^https?:\/\//.test(key)) return key;
+
+	const apiUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
+	return `${apiUrl}/files/${encodeURIComponent(fileId)}`;
+};
+
 const PromptItem = ({ prompt }: PromptItemProps) => {
 	return (
 		<Card className="vst-panel-subtle gap-0 border-white/12 bg-black/25 py-0 text-white transition duration-200 hover:border-white/30 hover:bg-white/12 hover:shadow-[0_0_34px_rgb(255_36_79_/_0.18)]">
@@ -36,10 +43,15 @@ const PromptItem = ({ prompt }: PromptItemProps) => {
 					{prompt.files.map((audio, i) => (
 						<AudioPlayer
 							key={audio.id}
-							label={`Prompt ${i + 1}`}
-							src={audio.key}
+							label={audio.fileName || `Audio ${i + 1}`}
+							src={getAudioSource(audio.id, audio.key)}
 						/>
 					))}
+					{prompt.files.length === 0 && (
+						<p className="rounded-xl border border-dashed border-white/15 px-3 py-2 text-xs text-white/50">
+							No audio files are available for this prompt yet.
+						</p>
+					)}
 				</div>
 			</CardContent>
 		</Card>
