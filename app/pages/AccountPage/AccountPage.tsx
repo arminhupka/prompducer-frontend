@@ -12,15 +12,12 @@ const PROMPTS_PER_PAGE = 5;
 
 const AccountPage = () => {
 	const [page, setPage] = useState(1);
-	const prompts = useGetPrompts();
+	const prompts = useGetPrompts({ page, limit: PROMPTS_PER_PAGE });
 	const user = useAuthStore((state) => state.user);
-	const promptCount = prompts.data?.length ?? 0;
-	const totalPages = Math.max(1, Math.ceil(promptCount / PROMPTS_PER_PAGE));
-	const currentPage = Math.min(page, totalPages);
-	const visiblePrompts = prompts.data?.slice(
-		(currentPage - 1) * PROMPTS_PER_PAGE,
-		currentPage * PROMPTS_PER_PAGE,
-	);
+	const visiblePrompts = prompts.data?.items ?? [];
+	const promptCount = prompts.data?.meta.total ?? 0;
+	const totalPages = prompts.data?.meta.totalPages ?? 0;
+	const currentPage = prompts.data?.meta.page ?? page;
 
 	return (
 		<section className="vst-shell mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
@@ -118,7 +115,7 @@ const AccountPage = () => {
 									)}
 							</div>
 						</ScrollArea>
-						{promptCount > PROMPTS_PER_PAGE && (
+						{totalPages > 1 && (
 							<div className="mt-4 flex items-center justify-between gap-3 border-t border-white/10 pt-4">
 								<p className="text-xs text-white/60">
 									Page {currentPage} of {totalPages}
@@ -130,7 +127,7 @@ const AccountPage = () => {
 										size="sm"
 										className="border-white/15 bg-white/5 text-white hover:bg-white/15 hover:text-white"
 										onClick={() => setPage(currentPage - 1)}
-										disabled={currentPage === 1}
+										disabled={currentPage === 1 || prompts.isFetching}
 									>
 										<ChevronLeft className="size-4" />
 										Previous
@@ -141,7 +138,7 @@ const AccountPage = () => {
 										size="sm"
 										className="border-white/15 bg-white/5 text-white hover:bg-white/15 hover:text-white"
 										onClick={() => setPage(currentPage + 1)}
-										disabled={currentPage === totalPages}
+										disabled={currentPage === totalPages || prompts.isFetching}
 									>
 										Next
 										<ChevronRight className="size-4" />

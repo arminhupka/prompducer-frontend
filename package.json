@@ -7,7 +7,7 @@
 		"dev": "react-router dev",
 		"start": "react-router-serve ./build/server/index.js",
 		"typecheck": "react-router typegen && tsc",
-		"swagger": "npx swagger-typescript-api@13.1.3 generate -p http://localhost:8888/api-json -o ./api -n api-types"
+		"swagger": "npx swagger-typescript-api generate -p https://api-summonic.producersources.com/api-json -o ./api -n api-types"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",

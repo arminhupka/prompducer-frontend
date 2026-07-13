@@ -9,7 +9,8 @@ interface PromptItemProps {
 	prompt: GeneratedPromptResponseDto;
 }
 
-const getAudioSource = (fileId: string, key: string) => {
+const getAudioSource = (fileId: string, key: string, url?: string) => {
+	if (url) return url;
 	if (/^https?:\/\//.test(key)) return key;
 
 	const apiUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, "") ?? "";
@@ -17,6 +18,8 @@ const getAudioSource = (fileId: string, key: string) => {
 };
 
 const PromptItem = ({ prompt }: PromptItemProps) => {
+	const files = Array.isArray(prompt.files) ? prompt.files : [];
+
 	return (
 		<Card className="vst-panel-subtle gap-0 border-white/12 bg-black/25 py-0 text-white transition duration-200 hover:border-white/30 hover:bg-white/12 hover:shadow-[0_0_34px_rgb(255_36_79_/_0.18)]">
 			<CardContent className="space-y-3 p-4">
@@ -40,14 +43,21 @@ const PromptItem = ({ prompt }: PromptItemProps) => {
 					</div>
 				</div>
 				<div className="space-y-2">
-					{prompt.files.map((audio, i) => (
-						<AudioPlayer
-							key={audio.id}
-							label={audio.fileName || `Audio ${i + 1}`}
-							src={getAudioSource(audio.id, audio.key)}
-						/>
-					))}
-					{prompt.files.length === 0 && (
+					{files.map((audio, i) => {
+						const url =
+							"url" in audio && typeof audio.url === "string"
+								? audio.url
+								: undefined;
+
+						return (
+							<AudioPlayer
+								key={audio.id}
+								label={audio.fileName || `Audio ${i + 1}`}
+								src={getAudioSource(audio.id, audio.key, url)}
+							/>
+						);
+					})}
+					{files.length === 0 && (
 						<p className="rounded-xl border border-dashed border-white/15 px-3 py-2 text-xs text-white/50">
 							No audio files are available for this prompt yet.
 						</p>
