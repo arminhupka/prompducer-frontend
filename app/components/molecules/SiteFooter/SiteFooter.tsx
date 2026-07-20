@@ -5,7 +5,8 @@ import { Link } from "react-router";
  *
  * Internal columns (Product / Account) point at real in-app routes.
  * Legal & Support links point at the Producersources brand site — repoint the
- * hrefs below once the final legal pages are published. Socials are placeholders.
+ * hrefs below once the final legal pages are published. Socials point at the
+ * Producersources accounts.
  */
 
 const STORE_URL = "https://producersources.com";
@@ -52,10 +53,22 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
 ];
 
 const SOCIALS: FooterLink[] = [
-	{ label: "Instagram", to: "https://instagram.com", external: true },
-	{ label: "YouTube", to: "https://youtube.com", external: true },
-	{ label: "TikTok", to: "https://tiktok.com", external: true },
-	{ label: "X", to: "https://x.com", external: true },
+	{
+		label: "Instagram",
+		to: "https://instagram.com/producersources",
+		external: true,
+	},
+	{
+		label: "YouTube",
+		to: "https://www.youtube.com/@ProducerSources",
+		external: true,
+	},
+	{
+		label: "TikTok",
+		to: "https://www.tiktok.com/@producersources",
+		external: true,
+	},
+	{ label: "X", to: "https://x.com/producersources", external: true },
 ];
 
 const linkClasses =
