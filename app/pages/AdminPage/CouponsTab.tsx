@@ -13,7 +13,7 @@ import {
 
 const packLabel = (packId: string | null) => {
 	const pack = TOPUP_PACKS.find((p) => p.id === packId);
-	return pack ? `${pack.credits.toLocaleString()} credits` : "—";
+	return pack ? `${pack.credits.toLocaleString()} credits` : "-";
 };
 
 const downloadTxt = (filename: string, lines: string[]) => {

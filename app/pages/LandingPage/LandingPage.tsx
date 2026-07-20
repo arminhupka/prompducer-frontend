@@ -26,14 +26,14 @@ const SHOWCASE: Showcase[] = [
 		alt: "SUMMONIC prompt box and Generate button",
 		eyebrow: "Generate",
 		title: "Type a prompt, get an instrument",
-		body: "Describe any sound in plain words and hit Generate. SUMMONIC builds a brand-new, fully playable instrument — no menu-diving, no sample hunting.",
+		body: "Describe any sound in plain words and hit Generate. SUMMONIC builds a brand-new, fully playable instrument - no menu-diving, no sample hunting.",
 	},
 	{
 		img: "/plugin/crops/options.webp",
 		alt: "The 1, 2, 3 generated option buttons",
 		eyebrow: "3 options · 3 credits",
 		title: "Three fresh takes, every time",
-		body: "Each generation returns three unique options so you can keep the best one. Every option costs 1 credit — so one hit of Generate uses 3 credits. Your 30 free credits cover 10 generations.",
+		body: "Each generation returns three unique options so you can keep the best one. Every option costs 1 credit - so one hit of Generate uses 3 credits. Your 30 free credits cover 10 generations.",
 		reverse: true,
 	},
 	{
@@ -48,7 +48,7 @@ const SHOWCASE: Showcase[] = [
 		alt: "SUMMONIC preset browser",
 		eyebrow: "Save & recall",
 		title: "Keep your sounds as presets",
-		body: "Love a result? Save it. Build banks of your own presets — search, rename, organize — and recall them in any session. The sounds are yours to keep.",
+		body: "Love a result? Save it. Build banks of your own presets - search, rename, organize - and recall them in any session. The sounds are yours to keep.",
 		reverse: true,
 	},
 	{
@@ -56,7 +56,7 @@ const SHOWCASE: Showcase[] = [
 		alt: "SUMMONIC effects page with EQ, compressor, drive, delay, reverb and modulation",
 		eyebrow: "Effects page",
 		title: "Finish it inside the plugin",
-		body: "A full effects page — EQ, envelope, compressor, drive, retro, chorus, degrade, delay, reverb and modulation — so you can sculpt and polish without ever leaving SUMMONIC.",
+		body: "A full effects page - EQ, envelope, compressor, drive, retro, chorus, degrade, delay, reverb and modulation - so you can sculpt and polish without ever leaving SUMMONIC.",
 	},
 ];
 
@@ -103,7 +103,7 @@ const LandingPage = () => {
 	const user = useAuthStore((state) => state.user);
 	const primaryCta = user
 		? { label: "Open my account", to: "/account" }
-		: { label: "Start free — 30 credits", to: "/register" };
+		: { label: "Start free - 30 credits", to: "/register" };
 
 	return (
 		<div className="space-y-16 pb-6 sm:space-y-24">
@@ -123,7 +123,7 @@ const LandingPage = () => {
 						/>
 						<div className="mx-auto mb-6 flex w-fit items-center gap-2 rounded-full border border-white/20 bg-black/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80 backdrop-blur-sm lg:mx-0">
 							<AudioWaveform className="size-4 text-cyan-200" />
-							VST · VST3 · AU — Windows &amp; macOS
+							VST · VST3 · AU - Windows &amp; macOS
 						</div>
 
 						<h1 className="vst-display vst-glow-text text-5xl leading-[0.95] text-white sm:text-6xl">
@@ -132,7 +132,7 @@ const LandingPage = () => {
 
 						<p className="mx-auto mt-6 max-w-xl text-base leading-7 text-white/80 sm:text-lg lg:mx-0">
 							SUMMONIC is a real audio-generation plugin. Type a prompt and it
-							conjures brand-new, fully playable instruments — infinite sounds
+							conjures brand-new, fully playable instruments - infinite sounds
 							that are yours alone, right inside your DAW.
 						</p>
 
@@ -160,11 +160,11 @@ const LandingPage = () => {
 
 						<p className="mt-5 flex items-center justify-center gap-2 text-sm text-white/65 lg:justify-start">
 							<Sparkles className="size-4 text-cyan-200" />
-							Every new account gets 30 free credits — no card required.
+							Every new account gets 30 free credits - no card required.
 						</p>
 					</div>
 
-					{/* Product shot — on mobile it sits below the copy; on lg it matches the copy height */}
+					{/* Product shot - on mobile it sits below the copy; on lg it matches the copy height */}
 					<div className="mt-2 flex items-center justify-center lg:mt-0">
 						<div className="relative flex max-h-[440px] items-center justify-center lg:h-full lg:max-h-[560px]">
 							<div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-pink-500/20 to-orange-400/20 blur-2xl" />
@@ -194,7 +194,7 @@ const LandingPage = () => {
 								generates the audio from scratch
 							</span>{" "}
 							every time, so each instrument is a unique sound that has never
-							existed before — and it belongs only to you. Use it in your records
+							existed before - and it belongs only to you. Use it in your records
 							with zero sample-clearance worries.
 						</p>
 					</div>

@@ -178,7 +178,7 @@ const OverviewTab = () => {
 							? `${Math.round(
 									(d.generations.failed / d.generations.total) * 100,
 								)}% of all runs`
-							: "—"
+							: "-"
 					}
 				/>
 			</div>

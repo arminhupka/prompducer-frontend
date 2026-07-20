@@ -47,7 +47,7 @@ const PlansPage = () => {
 				</h1>
 				<p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/78 sm:text-base">
 					{tab === "plans"
-						? "Every generation gives you 3 unique instruments and costs 3 credits. Pick the plan that matches how much you create — cancel any time."
+						? "Every generation gives you 3 unique instruments and costs 3 credits. Pick the plan that matches how much you create - cancel any time."
 						: "Running low mid-session? Top up instantly. Top-ups are available on any paid plan."}
 				</p>
 			</section>
@@ -80,8 +80,8 @@ const PlansPage = () => {
 							<Sparkles className="size-5 text-emerald-300" />
 							<p className="text-sm text-white/85">
 								<span className="font-semibold text-white">Free trial:</span>{" "}
-								every new account starts with 30 credits — enough for 10
-								generations — with no card required.
+								every new account starts with 30 credits - enough for 10
+								generations - with no card required.
 							</p>
 						</div>
 					</section>

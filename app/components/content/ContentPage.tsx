@@ -9,7 +9,7 @@ type ContentPageProps = {
 };
 
 /**
- * ContentPage — shared shell for legal / support / marketing content pages.
+ * ContentPage - shared shell for legal / support / marketing content pages.
  * Authors write plain <h2>/<h3>/<p>/<ul>/<a>/<strong> inside; the prose
  * styling is applied here via arbitrary variants so every page matches.
  */

@@ -71,7 +71,7 @@ const AccountPage = () => {
 				</div>
 
 				<div className="grid min-h-0 gap-5 lg:grid-cols-[minmax(0,1fr)_22rem]">
-					<div className="vst-panel flex min-h-0 flex-col p-4 sm:p-5">
+					<div className="vst-panel flex min-h-0 min-w-0 flex-col p-4 sm:p-5">
 						<div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
 							<div>
 								<h2 className="text-sm font-semibold uppercase tracking-[0.24em] text-white">

@@ -24,6 +24,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				{/* Blend the browser UI (address bar / status bar) into the dark app
+				    theme instead of showing an opaque black bar. */}
+				<meta name="theme-color" content="#150e1b" />
+				<meta
+					name="apple-mobile-web-app-status-bar-style"
+					content="black-translucent"
+				/>
 				<Meta />
 				<Links />
 			</head>

@@ -27,7 +27,7 @@ export const CreditsTab = ({ onSeePlans }: { onSeePlans: () => void }) => {
 						Top-ups are for subscribers
 					</h2>
 					<p className="max-w-md text-sm leading-6 text-white/75">
-						Credit top-ups are a subscriber perk — grab extra credits any time
+						Credit top-ups are a subscriber perk - grab extra credits any time
 						without changing your plan. Subscribe to a paid plan to unlock
 						pay-as-you-go credits.
 					</p>

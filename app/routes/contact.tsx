@@ -42,7 +42,7 @@ export default function Contact() {
 	const onSubmit = (values: ContactForm) => {
 		sendContact.mutate(values, {
 			onSuccess: () => {
-				toast.success("Message sent — we'll be in touch soon.");
+				toast.success("Message sent - we'll be in touch soon.");
 				reset();
 			},
 			onError: () => {

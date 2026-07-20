@@ -27,7 +27,7 @@ export default function Privacy() {
 				</li>
 				<li>
 					<strong>Billing data:</strong> subscription status, plan, and credit
-					balance. Card details are handled entirely by Stripe — we never see or
+					balance. Card details are handled entirely by Stripe - we never see or
 					store your full card number.
 				</li>
 				<li>
@@ -87,8 +87,8 @@ export default function Privacy() {
 
 			<h2>7. Security</h2>
 			<p>
-				We use industry-standard measures — encrypted transport, hashed
-				passwords, and access controls — to protect your data. No system is
+				We use industry-standard measures - encrypted transport, hashed
+				passwords, and access controls - to protect your data. No system is
 				perfectly secure, but we work to reduce risk and respond quickly to
 				incidents.
 			</p>

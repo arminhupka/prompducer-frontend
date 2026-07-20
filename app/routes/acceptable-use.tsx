@@ -22,7 +22,7 @@ export default function AcceptableUse() {
 			<ul>
 				<li>Use generated sounds in your own music, beats, and productions.</li>
 				<li>Experiment freely with prompts and effects.</li>
-				<li>Share your finished music however you like — the sounds are yours.</li>
+				<li>Share your finished music however you like - the sounds are yours.</li>
 			</ul>
 
 			<h2>Don’t</h2>

@@ -7,7 +7,7 @@ export function meta() {
 		{
 			name: "description",
 			content:
-				"SUMMONIC is a real audio-generation plugin by Producersources — imagine an instrument and generate it.",
+				"SUMMONIC is a real audio-generation plugin by Producersources - imagine an instrument and generate it.",
 		},
 	];
 }
@@ -17,14 +17,14 @@ export default function About() {
 		<ContentPage
 			eyebrow="Company"
 			title="About SUMMONIC"
-			intro="Imagine your instrument — then actually play it."
+			intro="Imagine your instrument - then actually play it."
 		>
 			<h2>Why we built it</h2>
 			<p>
 				Producers spend hours hunting for the right sound. SUMMONIC flips that:
 				describe what you hear in your head, and it generates a brand-new,
 				fully playable instrument on the spot. No crate-digging, no sample packs,
-				no clearance headaches — just the exact sound you imagined.
+				no clearance headaches - just the exact sound you imagined.
 			</p>
 
 			<h2>Real generation, not a library</h2>
@@ -46,7 +46,7 @@ export default function About() {
 				>
 					Producersources
 				</a>
-				, a company making tools and sounds for modern producers — trap, drill,
+				, a company making tools and sounds for modern producers - trap, drill,
 				amapiano, afrobeats, phonk, and MENA urban music. We build real DSP and
 				real products for people who make records.
 			</p>

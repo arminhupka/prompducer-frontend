@@ -1,10 +1,10 @@
 import { Link } from "react-router";
 
 /**
- * SiteFooter — full marketing footer for SUMMONIC.
+ * SiteFooter - full marketing footer for SUMMONIC.
  *
  * Internal columns (Product / Account) point at real in-app routes.
- * Legal & Support links point at the Producersources brand site — repoint the
+ * Legal & Support links point at the Producersources brand site - repoint the
  * hrefs below once the final legal pages are published. Socials point at the
  * Producersources accounts.
  */
@@ -100,7 +100,7 @@ const SiteFooter = () => {
 						<Link
 							to="/"
 							className="flex items-center outline-none"
-							aria-label="SUMMONIC — home"
+							aria-label="SUMMONIC - home"
 						>
 							<img
 								src="/plugin/summonic-logo-neat-transparent.png"

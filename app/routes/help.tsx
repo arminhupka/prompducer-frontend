@@ -7,7 +7,7 @@ export function meta() {
 		{
 			name: "description",
 			content:
-				"Answers to common questions about SUMMONIC — generation, credits, plans, installation, and billing.",
+				"Answers to common questions about SUMMONIC - generation, credits, plans, installation, and billing.",
 		},
 	];
 }
@@ -19,7 +19,7 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
 			<p>
 				SUMMONIC is a real audio-generation plugin (VST / VST3 / AU for Windows
 				&amp; macOS). You type a prompt and it generates brand-new, fully playable
-				instruments right inside your DAW — it is not a sample library or a search
+				instruments right inside your DAW - it is not a sample library or a search
 				engine.
 			</p>
 		),
@@ -31,7 +31,7 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
 				Every time you hit Generate, SUMMONIC creates <strong>three options</strong>{" "}
 				so you can pick the best one. Each option costs 1 credit, so a single
 				generation uses <strong>3 credits</strong>. New accounts get 30 free
-				credits — enough for 10 generations.
+				credits - enough for 10 generations.
 			</p>
 		),
 	},

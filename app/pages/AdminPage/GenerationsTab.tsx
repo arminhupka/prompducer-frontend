@@ -48,7 +48,7 @@ export const GenerationsTab = () => {
 											{g.prompt}
 										</td>
 										<td className="px-4 py-3 text-white/70">
-											{g.authorEmail ?? "—"}
+											{g.authorEmail ?? "-"}
 										</td>
 										<td className="px-4 py-3">
 											<span

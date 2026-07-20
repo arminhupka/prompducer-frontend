@@ -41,10 +41,10 @@ export const PaymentsTab = () => {
 									className="border-b border-white/5 hover:bg-white/5"
 								>
 									<td className="px-4 py-3 text-white">
-										{s.userEmail ?? "—"}
+										{s.userEmail ?? "-"}
 									</td>
 									<td className="px-4 py-3 text-white/70">
-										{s.planName ?? "—"}
+										{s.planName ?? "-"}
 									</td>
 									<td className="px-4 py-3">
 										<span
@@ -61,13 +61,13 @@ export const PaymentsTab = () => {
 										)}
 									</td>
 									<td className="px-4 py-3 text-white/80">
-										{s.priceCents ? formatUsd(s.priceCents) : "—"}
+										{s.priceCents ? formatUsd(s.priceCents) : "-"}
 									</td>
 									<td className="px-4 py-3 text-white/70">{s.credits}</td>
 									<td className="px-4 py-3 text-white/50">
 										{s.nextPaymentDate
 											? new Date(s.nextPaymentDate).toLocaleDateString()
-											: "—"}
+											: "-"}
 									</td>
 								</tr>
 							))}

@@ -16,7 +16,7 @@ export default function Refunds() {
 			eyebrow="Legal"
 			title="Refund Policy"
 			updated="July 14, 2026"
-			intro="We want you to try before you commit — that's why every account gets 30 free credits. Here's how refunds work once you're paying."
+			intro="We want you to try before you commit - that's why every account gets 30 free credits. Here's how refunds work once you're paying."
 		>
 			<h2>1. Try before you buy</h2>
 			<p>

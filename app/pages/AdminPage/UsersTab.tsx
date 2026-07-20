@@ -157,7 +157,7 @@ export const UsersTab = () => {
 												</span>
 											</td>
 											<td className="px-4 py-3 text-white/70">
-												{u.subscription?.planName ?? "—"}
+												{u.subscription?.planName ?? "-"}
 												<span className="ml-1 text-xs text-white/40">
 													{u.subscription?.status ?? ""}
 												</span>
