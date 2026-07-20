@@ -3,6 +3,7 @@ import type { ActivatePlanResponseDto, PlanResponseDto } from "api/api-types";
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
 import { apiClient } from "~/lib/apiClient";
+import { getApiErrorMessage } from "~/lib/getApiErrorMessage";
 import { queryClient } from "~/lib/queryClient";
 import { getMe } from "~/queries/auth";
 import { setUser } from "~/stores/authStore";
@@ -41,6 +42,12 @@ export const useActivatePlan = (props?: IUseActivatePlanMutation) =>
 
 			toast.error("Could not start checkout session");
 			await props?.onSuccess?.();
+		},
+		onError: (error) => {
+			toast.error(
+				getApiErrorMessage(error) ??
+					"Could not start checkout. Please try again.",
+			);
 		},
 	});
 
