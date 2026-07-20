@@ -60,8 +60,8 @@ export default function Refunds() {
 
 			<h2>5. How to request</h2>
 			<p>
-				Email <a href="mailto:support@producersources.com">
-					support@producersources.com
+				Email <a href="mailto:info@producersources.com">
+					info@producersources.com
 				</a>{" "}
 				or use our <a href="/contact">contact page</a> with your account email and
 				the charge details. We aim to respond within 2 business days.

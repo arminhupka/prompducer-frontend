@@ -79,8 +79,8 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
 		a: (
 			<p>
 				We’ve got you. Use the <Link to="/contact">contact page</Link> or email{" "}
-				<a href="mailto:support@producersources.com">
-					support@producersources.com
+				<a href="mailto:info@producersources.com">
+					info@producersources.com
 				</a>{" "}
 				and we’ll get back to you within 2 business days.
 			</p>

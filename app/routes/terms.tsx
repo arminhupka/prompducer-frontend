@@ -111,8 +111,8 @@ export default function Terms() {
 			<p>
 				Questions about these Terms? Reach us via the{" "}
 				<a href="/contact">contact page</a> or at{" "}
-				<a href="mailto:support@producersources.com">
-					support@producersources.com
+				<a href="mailto:info@producersources.com">
+					info@producersources.com
 				</a>
 				.
 			</p>

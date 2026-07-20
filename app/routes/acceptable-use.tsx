@@ -61,8 +61,8 @@ export default function AcceptableUse() {
 			<h2>Reporting</h2>
 			<p>
 				To report misuse, contact{" "}
-				<a href="mailto:support@producersources.com">
-					support@producersources.com
+				<a href="mailto:info@producersources.com">
+					info@producersources.com
 				</a>
 				.
 			</p>

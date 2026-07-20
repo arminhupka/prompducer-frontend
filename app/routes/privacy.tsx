@@ -79,8 +79,8 @@ export default function Privacy() {
 				Depending on your location, you may have the right to access, correct,
 				export, or delete your personal data, and to object to certain processing.
 				To exercise these rights, contact us at{" "}
-				<a href="mailto:support@producersources.com">
-					support@producersources.com
+				<a href="mailto:info@producersources.com">
+					info@producersources.com
 				</a>
 				.
 			</p>
@@ -109,8 +109,8 @@ export default function Privacy() {
 			<p>
 				Privacy questions? Reach us via the{" "}
 				<a href="/contact">contact page</a> or at{" "}
-				<a href="mailto:support@producersources.com">
-					support@producersources.com
+				<a href="mailto:info@producersources.com">
+					info@producersources.com
 				</a>
 				.
 			</p>

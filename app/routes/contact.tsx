@@ -47,7 +47,7 @@ export default function Contact() {
 			},
 			onError: () => {
 				toast.error(
-					"Couldn't send right now. Please email support@producersources.com.",
+					"Couldn't send right now. Please email info@producersources.com.",
 				);
 			},
 		});
@@ -67,11 +67,11 @@ export default function Contact() {
 					a note and a human will get back to you within 2 business days.
 				</p>
 				<a
-					href="mailto:support@producersources.com"
+					href="mailto:info@producersources.com"
 					className="mt-4 inline-flex items-center gap-2 text-sm text-cyan-200 hover:text-white"
 				>
 					<Mail className="size-4" />
-					support@producersources.com
+					info@producersources.com
 				</a>
 			</header>
 
