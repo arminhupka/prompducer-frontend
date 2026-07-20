@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Outlet } from "react-router";
 import { Toaster } from "sonner";
 import AppHeader from "~/components/molecules/AppHeader/AppHeader";
+import SiteFooter from "~/components/molecules/SiteFooter/SiteFooter";
 import { clearUser, setUser } from "~/stores/authStore";
 import type { Route } from "./+types/AppLayout";
 
@@ -44,8 +45,11 @@ const AppLayout = ({ loaderData }: Route.ComponentProps) => {
 			<div className="relative z-10 flex min-h-svh flex-col">
 				<AppHeader />
 				<main className="min-h-0 flex-1 overflow-y-auto">
-					<div className="container box-border py-5 sm:py-8 lg:py-10">
-						<Outlet />
+					<div className="flex min-h-full flex-col">
+						<div className="container box-border flex-1 py-5 sm:py-8 lg:py-10">
+							<Outlet />
+						</div>
+						<SiteFooter />
 					</div>
 				</main>
 			</div>

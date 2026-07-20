@@ -1,4 +1,5 @@
 import { redirect } from "react-router";
+import { isAdmin } from "~/lib/roles";
 import { getMe } from "~/queries/auth";
 
 const hasValidSession = async () => {
@@ -7,6 +8,15 @@ const hasValidSession = async () => {
 		return true;
 	} catch {
 		return false;
+	}
+};
+
+export const redirectNonAdmin = async () => {
+	try {
+		const me = await getMe();
+		return isAdmin(me) ? null : redirect("/");
+	} catch {
+		return redirect("/login");
 	}
 };
 
