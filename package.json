@@ -10,6 +10,7 @@
 		"swagger": "npx swagger-typescript-api generate -p https://api-summonic.producersources.com/api-json -o ./api -n api-types"
 	},
 	"dependencies": {
+		"@fingerprintjs/fingerprintjs": "^5.2.0",
 		"@hookform/resolvers": "^5.2.2",
 		"@netri0t/rhfz": "^1.0.6",
 		"@radix-ui/react-label": "^2.1.7",

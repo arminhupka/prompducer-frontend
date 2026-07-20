@@ -10,6 +10,7 @@ import type { AxiosError } from "axios";
 import { toast } from "sonner";
 import { apiClient } from "~/lib/apiClient";
 import { getApiErrorMessage } from "~/lib/getApiErrorMessage";
+import { getMachineId } from "~/lib/machineId";
 
 interface IUseAuthMutation {
 	onSuccess?: () => void | Promise<void>;
@@ -22,10 +23,12 @@ interface IUseGetMeProps {
 export const useRegister = (props?: IUseAuthMutation) =>
 	useMutation<void, AxiosError, CreateUserDto>({
 		mutationFn: async (form) => {
+			const machineId = await getMachineId();
 			const { data } = await apiClient.post<void>("/auth/register", {
 				email: form.email,
 				password: form.password,
 				passwordConfirmation: form.passwordConfirmation,
+				machineId,
 			});
 			return data;
 		},
@@ -41,9 +44,11 @@ export const useRegister = (props?: IUseAuthMutation) =>
 export const useLogin = (props?: IUseAuthMutation) =>
 	useMutation<LoginResponseDto, AxiosError, LoginDto>({
 		mutationFn: async (form) => {
+			const machineId = await getMachineId();
 			const { data } = await apiClient.post<{ token: string }>("/auth/login", {
 				email: form.email,
 				password: form.password,
+				machineId,
 			});
 			localStorage.setItem("token", data.token);
 			return data;
