@@ -41,7 +41,7 @@ export default function Terms() {
 					credit per option).
 				</li>
 				<li>
-					New accounts receive a one-time allocation of 30 free credits for
+					Each user receives a one-time allocation of 30 free credits per person for
 					evaluation.
 				</li>
 				<li>

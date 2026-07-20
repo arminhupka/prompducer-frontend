@@ -79,6 +79,28 @@ export const useResetPassword = (props?: IUseAuthMutation) =>
 		},
 	});
 
+export const useConfirmResetPassword = (props?: IUseAuthMutation) =>
+	useMutation<
+		void,
+		AxiosError,
+		{ token: string; password: string; passwordConfirmation: string }
+	>({
+		mutationFn: async (form) => {
+			const { data } = await apiClient.post<void>(
+				"/auth/reset-password/confirm",
+				form,
+			);
+			return data;
+		},
+		onSuccess: props?.onSuccess,
+		onError: (error) => {
+			toast.error(
+				getApiErrorMessage(error) ??
+					"Unable to reset your password. The link may have expired.",
+			);
+		},
+	});
+
 export const getMe = async (): Promise<MeResponseDto> => {
 	const { data } = await apiClient.get("/auth/me");
 	return data;

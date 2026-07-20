@@ -160,7 +160,7 @@ const LandingPage = () => {
 
 						<p className="mt-5 flex items-center justify-center gap-2 text-sm text-white/65 lg:justify-start">
 							<Sparkles className="size-4 text-cyan-200" />
-							Every new account gets 30 free credits - no card required.
+							New users get 30 free credits - no card required.
 						</p>
 					</div>
 
@@ -255,7 +255,7 @@ const LandingPage = () => {
 						</div>
 						<ul className="mx-auto mt-8 flex max-w-lg flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/70">
 							<li className="flex items-center gap-1.5">
-								<Check className="size-4 text-emerald-300" /> 30 free credits
+								<Check className="size-4 text-emerald-300" /> 30 credits per user
 							</li>
 							<li className="flex items-center gap-1.5">
 								<Check className="size-4 text-emerald-300" /> No card required

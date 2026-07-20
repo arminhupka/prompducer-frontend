@@ -80,8 +80,9 @@ const PlansPage = () => {
 							<Sparkles className="size-5 text-emerald-300" />
 							<p className="text-sm text-white/85">
 								<span className="font-semibold text-white">Free trial:</span>{" "}
-								every new account starts with 30 credits - enough for 10
-								generations - with no card required.
+								every user gets a one-time 30 credits - enough for 10
+								generations, no card required. Credits are per person, so extra
+								accounts won&apos;t add more.
 							</p>
 						</div>
 					</section>

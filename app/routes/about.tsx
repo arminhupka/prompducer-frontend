@@ -53,7 +53,7 @@ export default function About() {
 
 			<h2>Get started</h2>
 			<p>
-				Every new account gets 30 free credits. Try it, then pick the plan that
+				Every new user gets 30 free credits. Try it, then pick the plan that
 				fits how much you create.
 			</p>
 			<p>

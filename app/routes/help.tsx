@@ -30,7 +30,7 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
 			<p>
 				Every time you hit Generate, SUMMONIC creates <strong>three options</strong>{" "}
 				so you can pick the best one. Each option costs 1 credit, so a single
-				generation uses <strong>3 credits</strong>. New accounts get 30 free
+				generation uses <strong>3 credits</strong>. New users get a one-time 30 free
 				credits - enough for 10 generations.
 			</p>
 		),
