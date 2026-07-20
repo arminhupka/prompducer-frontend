@@ -9,17 +9,19 @@ import {
 import { type ReactNode, useState } from "react";
 import { formatUsd } from "~/lib/topups";
 import { type AdminOverview, useAdminOverview } from "~/queries/admin";
+import { CouponsTab } from "./CouponsTab";
 import { GenerationsTab } from "./GenerationsTab";
 import { PaymentsTab } from "./PaymentsTab";
 import { UsersTab } from "./UsersTab";
 
-type Tab = "overview" | "users" | "generations" | "payments";
+type Tab = "overview" | "users" | "generations" | "payments" | "coupons";
 
 const TABS: { id: Tab; label: string }[] = [
 	{ id: "overview", label: "Overview" },
 	{ id: "users", label: "Users" },
 	{ id: "generations", label: "Generations" },
 	{ id: "payments", label: "Payments" },
+	{ id: "coupons", label: "Coupons" },
 ];
 
 const StatCard = ({
@@ -224,6 +226,7 @@ const AdminPage = () => {
 			{tab === "users" && <UsersTab />}
 			{tab === "generations" && <GenerationsTab />}
 			{tab === "payments" && <PaymentsTab />}
+			{tab === "coupons" && <CouponsTab />}
 		</div>
 	);
 };
