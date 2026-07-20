@@ -164,14 +164,14 @@ const LandingPage = () => {
 						</p>
 					</div>
 
-					{/* Product shot — height matches the copy, so it stays above the fold */}
-					<div className="hidden items-center justify-center lg:flex">
-						<div className="relative flex h-full max-h-[560px] items-center justify-center">
+					{/* Product shot — on mobile it sits below the copy; on lg it matches the copy height */}
+					<div className="mt-2 flex items-center justify-center lg:mt-0">
+						<div className="relative flex max-h-[440px] items-center justify-center lg:h-full lg:max-h-[560px]">
 							<div className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-pink-500/20 to-orange-400/20 blur-2xl" />
 							<img
 								src="/plugin/sounds2.webp"
 								alt="The SUMMONIC plugin interface"
-								className="relative h-full w-auto rounded-2xl border border-white/15 object-contain shadow-2xl"
+								className="relative max-h-[440px] w-auto rounded-2xl border border-white/15 object-contain shadow-2xl lg:h-full lg:max-h-none"
 							/>
 						</div>
 					</div>
