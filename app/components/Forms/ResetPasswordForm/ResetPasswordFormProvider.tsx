@@ -19,7 +19,9 @@ const ResetPasswordFormProvider = ({ children }: IProps) => {
 	const navigate = useNavigate();
 	const resetPassword = useResetPassword({
 		onSuccess: async () => {
-			toast.success("Password reset request accepted");
+			toast.success(
+				"If an account exists for that email, a reset link is on its way.",
+			);
 			navigate("/login", { replace: true });
 		},
 	});
