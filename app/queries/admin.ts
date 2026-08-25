@@ -114,6 +114,25 @@ export const useSetRole = () =>
 		},
 	});
 
+export const useAssignPlan = () =>
+	useMutation<
+		{ planName: string; status: string; credits: number },
+		AxiosError,
+		{ userId: string; planId: string; interval: "month" | "year" }
+	>({
+		mutationFn: async ({ userId, planId, interval }) => {
+			const { data } = await apiClient.post<{
+				planName: string;
+				status: string;
+				credits: number;
+			}>(`/admin/users/${userId}/plan`, { planId, interval });
+			return data;
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
+		},
+	});
+
 export const useAdminGenerations = (page: number) =>
 	useQuery<{ items: AdminGeneration[]; total: number }>({
 		queryKey: ["admin", "generations", page],

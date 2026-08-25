@@ -6,13 +6,37 @@ import {
 	type AdminUserRow,
 	useAdjustCredits,
 	useAdminUsers,
+	useAssignPlan,
 	useSetRole,
 } from "~/queries/admin";
+import { usePlans } from "~/queries/plans";
 
 const ManageRow = ({ user }: { user: AdminUserRow }) => {
 	const [amount, setAmount] = useState(300);
 	const adjust = useAdjustCredits();
 	const setRole = useSetRole();
+
+	const plans = usePlans();
+	const assignPlan = useAssignPlan();
+	const [planId, setPlanId] = useState("");
+	const [interval, setInterval] = useState<"month" | "year">("month");
+
+	const applyPlan = () => {
+		if (!planId) {
+			toast.error("Pick a plan first");
+			return;
+		}
+		assignPlan.mutate(
+			{ userId: user.id, planId, interval },
+			{
+				onSuccess: (data) =>
+					toast.success(
+						`Assigned ${data.planName} → ${data.credits} credits`,
+					),
+				onError: () => toast.error("Could not assign plan"),
+			},
+		);
+	};
 
 	const applyCredits = (signedAmount: number) => {
 		if (!signedAmount) return;
@@ -74,6 +98,43 @@ const ManageRow = ({ user }: { user: AdminUserRow }) => {
 					>
 						{user.role === "ADMIN" ? "Demote to USER" : "Promote to ADMIN"}
 					</Button>
+				</div>
+
+				<div className="mt-4 flex flex-wrap items-center gap-2 border-t border-white/10 pt-4">
+					<span className="text-xs text-white/60">Assign plan:</span>
+					<select
+						value={planId}
+						onChange={(e) => setPlanId(e.target.value)}
+						className="rounded-lg border border-white/15 bg-black/30 px-3 py-1.5 text-sm text-white outline-none focus:border-cyan-300/60"
+					>
+						<option value="">Select a plan…</option>
+						{plans.data?.map((plan) => (
+							<option key={plan.id} value={plan.id}>
+								{plan.name} ({plan.credits} credits)
+							</option>
+						))}
+					</select>
+					<select
+						value={interval}
+						onChange={(e) =>
+							setInterval(e.target.value === "year" ? "year" : "month")
+						}
+						className="rounded-lg border border-white/15 bg-black/30 px-3 py-1.5 text-sm text-white outline-none focus:border-cyan-300/60"
+					>
+						<option value="month">Monthly</option>
+						<option value="year">Yearly</option>
+					</select>
+					<Button
+						variant="ghost"
+						disabled={assignPlan.isPending || !planId}
+						className="vst-button-primary h-auto cursor-pointer px-4 py-1.5 text-xs"
+						onClick={applyPlan}
+					>
+						{assignPlan.isPending ? "Assigning…" : "Assign"}
+					</Button>
+					<span className="text-[11px] text-white/40">
+						No charge · tops credits up to the plan allotment
+					</span>
 				</div>
 			</td>
 		</tr>
