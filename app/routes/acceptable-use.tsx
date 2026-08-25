@@ -15,7 +15,7 @@ export default function AcceptableUse() {
 		<ContentPage
 			eyebrow="Legal"
 			title="Acceptable Use Policy"
-			updated="July 14, 2026"
+			updated="August 26, 2026"
 			intro="SUMMONIC is built for producers to create original music. These rules keep it that way for everyone."
 		>
 			<h2>Do</h2>

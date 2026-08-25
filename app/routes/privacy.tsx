@@ -16,7 +16,7 @@ export default function Privacy() {
 		<ContentPage
 			eyebrow="Legal"
 			title="Privacy Policy"
-			updated="July 14, 2026"
+			updated="August 26, 2026"
 			intro="This policy explains what data SUMMONIC collects, why, and the choices you have."
 		>
 			<h2>1. Data we collect</h2>
@@ -27,8 +27,9 @@ export default function Privacy() {
 				</li>
 				<li>
 					<strong>Billing data:</strong> subscription status, plan, and credit
-					balance. Card details are handled entirely by Stripe - we never see or
-					store your full card number.
+					balance. Card and PayPal payment details are handled entirely by our
+					payment processors (Stripe and PayPal) - we never see or store your full
+					card number.
 				</li>
 				<li>
 					<strong>Usage data:</strong> the prompts you submit and the generated
@@ -52,7 +53,8 @@ export default function Privacy() {
 
 			<h2>3. Payment processing</h2>
 			<p>
-				Payments are processed by <strong>Stripe</strong>. Stripe acts as an
+				Payments are processed by <strong>Stripe</strong> and{" "}
+				<strong>PayPal</strong>, depending on the method you choose. Each acts as an
 				independent controller of your payment information under its own privacy
 				policy. We store only the identifiers needed to reconcile your
 				subscription and credits.
@@ -61,8 +63,8 @@ export default function Privacy() {
 			<h2>4. Third parties we rely on</h2>
 			<p>
 				We use trusted providers to run the Service, including cloud hosting,
-				object storage for generated audio, Stripe for payments, and an email
-				provider for transactional messages. These providers process data only on
+				object storage for generated audio, Stripe and PayPal for payments, and an
+				email provider for transactional messages. These providers process data only on
 				our instructions.
 			</p>
 

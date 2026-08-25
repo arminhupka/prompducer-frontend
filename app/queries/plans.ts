@@ -60,6 +60,38 @@ export const useActivatePlan = (props?: IUseActivatePlanMutation) =>
 		},
 	});
 
+interface IUseChangePlanMutation {
+	onSuccess?: () => void | Promise<void>;
+}
+
+/**
+ * Upgrades/downgrades the active subscription in place (Stripe proration).
+ * Backend: POST /plans/change/:id -> { ok, plan }. Refreshes the current user.
+ */
+export const useChangePlan = (props?: IUseChangePlanMutation) =>
+	useMutation<{ ok: boolean; plan: string }, AxiosError, string>({
+		mutationFn: async (planId) => {
+			const { data } = await apiClient.post<{ ok: boolean; plan: string }>(
+				`/plans/change/${planId}`,
+			);
+			return data;
+		},
+		onSuccess: async (data) => {
+			const me = await queryClient.fetchQuery({
+				queryKey: ["auth", "me"],
+				queryFn: getMe,
+			});
+			setUser(me);
+			toast.success(`Switched to ${data.plan}`);
+			await props?.onSuccess?.();
+		},
+		onError: (error) => {
+			toast.error(
+				getApiErrorMessage(error) ?? "Could not change plan. Please try again.",
+			);
+		},
+	});
+
 export const useDeactivatePlan = (props?: IUseDeactivatePlanMutation) =>
 	useMutation<void, AxiosError>({
 		mutationFn: async () => {

@@ -3,7 +3,12 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { type BillingInterval, useActivatePlan, usePlans } from "~/queries/plans";
+import {
+	type BillingInterval,
+	useActivatePlan,
+	useChangePlan,
+	usePlans,
+} from "~/queries/plans";
 import { useAuthStore } from "~/stores/authStore";
 import { CreditsTab } from "./CreditsTab";
 
@@ -25,6 +30,7 @@ const PlansPage = () => {
 	const user = useAuthStore((state) => state.user);
 	const plans = usePlans();
 	const activatePlan = useActivatePlan();
+	const changePlan = useChangePlan();
 	const [tab, setTab] = useState<Tab>("plans");
 	const [billing, setBilling] = useState<BillingInterval>("month");
 
@@ -254,7 +260,24 @@ const PlansPage = () => {
 													</Button>
 												)}
 
-												{user && !isCurrent && (
+												{/* Existing subscriber → in-place upgrade/downgrade (Stripe proration). */}
+												{user && !isCurrent && hasActiveSub && (
+													<Button
+														size="lg"
+														variant="ghost"
+														className="vst-button-primary h-auto w-full cursor-pointer py-3"
+														disabled={changePlan.isPending}
+														onClick={() => changePlan.mutate(plan.id)}
+													>
+														{changePlan.isPending &&
+														changePlan.variables === plan.id
+															? "Switching..."
+															: `Switch to ${plan.name}`}
+													</Button>
+												)}
+
+												{/* New subscriber → card or PayPal checkout. */}
+												{user && !isCurrent && !hasActiveSub && (
 													<div className="space-y-2">
 														<Button
 															size="lg"
@@ -273,9 +296,7 @@ const PlansPage = () => {
 															activatePlan.variables?.planId === plan.id &&
 															activatePlan.variables?.provider !== "paypal"
 																? "Redirecting to checkout..."
-																: hasActiveSub
-																	? `Switch to ${plan.name}`
-																	: `Get ${plan.name} with card`}
+																: `Get ${plan.name} with card`}
 														</Button>
 														<Button
 															size="lg"

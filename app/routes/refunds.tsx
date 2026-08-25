@@ -15,7 +15,7 @@ export default function Refunds() {
 		<ContentPage
 			eyebrow="Legal"
 			title="Refund Policy"
-			updated="July 14, 2026"
+			updated="August 26, 2026"
 			intro="We want you to try before you commit - that's why every user gets 30 free credits. Here's how refunds work once you're paying."
 		>
 			<h2>1. Try before you buy</h2>
@@ -55,7 +55,9 @@ export default function Refunds() {
 			<h2>4. Duplicate or fraudulent charges</h2>
 			<p>
 				If you see a duplicate charge or a payment you don’t recognize, contact us
-				immediately and we’ll investigate and refund any verified error.
+				immediately and we’ll investigate and refund any verified error. Any
+				approved refund is issued to your original payment method (card via Stripe,
+				or your PayPal account).
 			</p>
 
 			<h2>5. How to request</h2>

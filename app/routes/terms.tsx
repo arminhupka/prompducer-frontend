@@ -16,7 +16,7 @@ export default function Terms() {
 		<ContentPage
 			eyebrow="Legal"
 			title="Terms of Service"
-			updated="July 14, 2026"
+			updated="August 26, 2026"
 			intro="Please read these terms carefully before using SUMMONIC. By creating an account or using the plugin, you agree to them."
 		>
 			<h2>1. Who we are</h2>
@@ -45,8 +45,10 @@ export default function Terms() {
 					evaluation.
 				</li>
 				<li>
-					Paid plans grant a monthly credit allowance that refreshes each billing
-					cycle. Unused monthly credits do not roll over unless expressly stated.
+					Paid plans are available on <strong>monthly or annual</strong> billing
+					(annual is charged for ten months, giving two months free) and grant a
+					monthly credit allowance. Unused monthly credits do not roll over unless
+					expressly stated.
 				</li>
 				<li>
 					Subscribers on a paid plan may purchase additional credit top-ups.
@@ -54,9 +56,10 @@ export default function Terms() {
 					checkout.
 				</li>
 				<li>
-					Prices are shown in US dollars and billed through our payment processor,
-					Stripe. Any introductory or first-cycle discount applies only to the
-					first billing cycle of a new subscription.
+					Prices are shown in US dollars and billed through our payment processors,
+					<strong> Stripe</strong> and <strong>PayPal</strong>. Any introductory or
+					first-cycle discount applies only to the first billing cycle of a new
+					subscriber’s first subscription.
 				</li>
 			</ul>
 
