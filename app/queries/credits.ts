@@ -5,16 +5,23 @@ import { apiClient } from "~/lib/apiClient";
 
 type CreditCheckoutResponse = { url: string | null };
 
+type PaymentProvider = "stripe" | "paypal";
+
+interface IPurchaseCreditsVariables {
+	packId: string;
+	provider?: PaymentProvider;
+}
+
 /**
- * Starts a one-time Stripe Checkout for a credit top-up pack.
- * Backend: POST /credits/checkout { packId } -> { url }. Subscribers only.
+ * Starts a one-time checkout (Stripe or PayPal) for a credit top-up pack.
+ * Backend: POST /credits/checkout { packId, provider } -> { url }. Subscribers only.
  */
 export const usePurchaseCredits = () =>
-	useMutation<CreditCheckoutResponse, AxiosError, string>({
-		mutationFn: async (packId) => {
+	useMutation<CreditCheckoutResponse, AxiosError, IPurchaseCreditsVariables>({
+		mutationFn: async ({ packId, provider = "stripe" }) => {
 			const { data } = await apiClient.post<CreditCheckoutResponse>(
 				"/credits/checkout",
-				{ packId },
+				{ packId, provider },
 			);
 			return data;
 		},

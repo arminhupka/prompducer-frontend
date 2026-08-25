@@ -25,11 +25,20 @@ interface IUseActivatePlanMutation {
 	onSuccess?: () => void | Promise<void>;
 }
 
+export type BillingInterval = "month" | "year";
+export type PaymentProvider = "stripe" | "paypal";
+
+interface IActivatePlanVariables {
+	planId: string;
+	interval: BillingInterval;
+	provider?: PaymentProvider;
+}
+
 export const useActivatePlan = (props?: IUseActivatePlanMutation) =>
-	useMutation<ActivatePlanResponseDto, AxiosError, string>({
-		mutationFn: async (planId) => {
+	useMutation<ActivatePlanResponseDto, AxiosError, IActivatePlanVariables>({
+		mutationFn: async ({ planId, interval, provider = "stripe" }) => {
 			const { data } = await apiClient.post<ActivatePlanResponseDto>(
-				`/plans/activate/${planId}`,
+				`/plans/activate/${planId}?interval=${interval}&provider=${provider}`,
 			);
 			return data;
 		},

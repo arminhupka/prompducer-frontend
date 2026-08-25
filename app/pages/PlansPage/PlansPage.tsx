@@ -3,11 +3,12 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { useActivatePlan, usePlans } from "~/queries/plans";
+import { type BillingInterval, useActivatePlan, usePlans } from "~/queries/plans";
 import { useAuthStore } from "~/stores/authStore";
 import { CreditsTab } from "./CreditsTab";
 
-const FIRST_MONTH_DISCOUNT = 0.2; // 20% off the first billing cycle
+const FIRST_MONTH_DISCOUNT = 0.3; // 30% off the first billing cycle (new subscribers, monthly only)
+const YEARLY_MONTHS_BILLED = 10; // Yearly = two months free (pay for 10)
 
 const priceFormatter = (price: number | null | undefined) => {
 	const formatter = new Intl.NumberFormat("en-US", {
@@ -25,6 +26,14 @@ const PlansPage = () => {
 	const plans = usePlans();
 	const activatePlan = useActivatePlan();
 	const [tab, setTab] = useState<Tab>("plans");
+	const [billing, setBilling] = useState<BillingInterval>("month");
+
+	// New subscribers (never subscribed) get the first-month discount. The API exposes
+	// firstMonthDiscountEligible on /me; logged-out visitors are treated as eligible.
+	const eligibleForDiscount =
+		(user as unknown as { firstMonthDiscountEligible?: boolean } | null)
+			?.firstMonthDiscountEligible ?? true;
+	const isYearly = billing === "year";
 
 	const hasActiveSub = user?.subscription?.status === "ACTIVE";
 	const activePlanName = hasActiveSub ? user?.subscription?.plan?.name : null;
@@ -69,6 +78,37 @@ const PlansPage = () => {
 					</button>
 				))}
 			</div>
+
+			{/* Billing period toggle */}
+			{tab === "plans" && (
+				<div className="mx-auto flex w-fit items-center gap-1 rounded-full border border-white/15 bg-black/25 p-1 backdrop-blur-sm">
+					{(["month", "year"] as BillingInterval[]).map((value) => (
+						<button
+							key={value}
+							type="button"
+							onClick={() => setBilling(value)}
+							className={`flex cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition ${
+								billing === value
+									? "bg-white text-[#150e1b]"
+									: "text-white/70 hover:text-white"
+							}`}
+						>
+							{value === "month" ? "Monthly" : "Yearly"}
+							{value === "year" && (
+								<span
+									className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+										billing === "year"
+											? "bg-emerald-500/20 text-emerald-700"
+											: "bg-emerald-400/15 text-emerald-200"
+									}`}
+								>
+									2 months free
+								</span>
+							)}
+						</button>
+					))}
+				</div>
+			)}
 
 			{tab === "credits" ? (
 				<CreditsTab onSeePlans={() => setTab("plans")} />
@@ -117,6 +157,9 @@ const PlansPage = () => {
 									const firstMonth = plan.price
 										? Math.round(plan.price * (1 - FIRST_MONTH_DISCOUNT))
 										: 0;
+									const yearlyPrice = plan.price * YEARLY_MONTHS_BILLED;
+									const displayPrice = isYearly ? yearlyPrice : plan.price;
+									const yearlyMonthlyEquivalent = Math.round(yearlyPrice / 12);
 
 									return (
 										<div
@@ -142,16 +185,24 @@ const PlansPage = () => {
 
 											<div className="mt-5 flex items-end gap-1">
 												<span className="vst-display text-4xl text-white">
-													{priceFormatter(plan.price)}
+													{priceFormatter(displayPrice)}
 												</span>
 												<span className="mb-1 text-sm text-white/60">
-													/month
+													{isYearly ? "/year" : "/month"}
 												</span>
 											</div>
 
-											{plan.price > 0 && (
+											{plan.price > 0 && !isYearly && eligibleForDiscount && (
 												<p className="mt-1.5 text-xs font-medium text-cyan-200">
-													{priceFormatter(firstMonth)} first month · 20% off
+													{priceFormatter(firstMonth)} first month · 30% off
+												</p>
+											)}
+
+											{plan.price > 0 && isYearly && (
+												<p className="mt-1.5 text-xs font-medium text-emerald-200">
+													2 months free ·{" "}
+													{priceFormatter(yearlyMonthlyEquivalent)}/mo billed
+													yearly
 												</p>
 											)}
 
@@ -204,19 +255,48 @@ const PlansPage = () => {
 												)}
 
 												{user && !isCurrent && (
-													<Button
-														size="lg"
-														variant="ghost"
-														className="vst-button-primary h-auto w-full cursor-pointer py-3"
-														disabled={activatePlan.isPending}
-														onClick={() => activatePlan.mutate(plan.id)}
-													>
-														{activatePlan.isPending
-															? "Redirecting to checkout..."
-															: hasActiveSub
-																? `Switch to ${plan.name}`
-																: `Get ${plan.name}`}
-													</Button>
+													<div className="space-y-2">
+														<Button
+															size="lg"
+															variant="ghost"
+															className="vst-button-primary h-auto w-full cursor-pointer py-3"
+															disabled={activatePlan.isPending}
+															onClick={() =>
+																activatePlan.mutate({
+																	planId: plan.id,
+																	interval: billing,
+																	provider: "stripe",
+																})
+															}
+														>
+															{activatePlan.isPending &&
+															activatePlan.variables?.planId === plan.id &&
+															activatePlan.variables?.provider !== "paypal"
+																? "Redirecting to checkout..."
+																: hasActiveSub
+																	? `Switch to ${plan.name}`
+																	: `Get ${plan.name} with card`}
+														</Button>
+														<Button
+															size="lg"
+															variant="ghost"
+															className="vst-button-ghost h-auto w-full cursor-pointer py-3"
+															disabled={activatePlan.isPending}
+															onClick={() =>
+																activatePlan.mutate({
+																	planId: plan.id,
+																	interval: billing,
+																	provider: "paypal",
+																})
+															}
+														>
+															{activatePlan.isPending &&
+															activatePlan.variables?.planId === plan.id &&
+															activatePlan.variables?.provider === "paypal"
+																? "Redirecting to PayPal..."
+																: "PayPal"}
+														</Button>
+													</div>
 												)}
 											</div>
 										</div>
@@ -231,11 +311,12 @@ const PlansPage = () => {
 			{/* Reassurance footer note */}
 			<section className="mx-auto max-w-3xl px-2 text-center">
 				<p className="text-xs leading-5 text-white/55">
-					Payments are handled securely by Stripe. Prices are in USD. The 20%
+					Payments are handled securely by Stripe. Prices are in USD. The 30%
 					first-month discount applies to the first billing cycle of a new
-					subscription. Credits refresh with each billing cycle; top-up credits
-					can’t be exchanged for cash or a membership. Every sound you generate is
-					yours to use in your releases.
+					subscription (monthly billing, first-time subscribers only). Yearly
+					plans are billed once a year at two months off. Credits refresh every
+					month; top-up credits can’t be exchanged for cash or a membership. Every
+					sound you generate is yours to use in your releases.
 				</p>
 			</section>
 		</div>

@@ -111,7 +111,7 @@ const PlanInfo = () => {
 							variant="ghost"
 							className="vst-button-primary h-auto w-full cursor-pointer py-3"
 							onClick={() => {
-								planActivate.mutate(plan.id);
+								planActivate.mutate({ planId: plan.id, interval: "month" });
 							}}
 						>
 							Get {plan.name} ({priceFormatter(plan.price)}/month) with{" "}

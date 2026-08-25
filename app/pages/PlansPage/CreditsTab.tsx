@@ -55,8 +55,12 @@ export const CreditsTab = ({ onSeePlans }: { onSeePlans: () => void }) => {
 			<div className="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
 				{TOPUP_PACKS.map((pack) => {
 					const generations = Math.floor(pack.credits / CREDITS_PER_GENERATION);
-					const pending =
-						purchase.isPending && purchase.variables === pack.id;
+					const isThisPack =
+						purchase.isPending && purchase.variables?.packId === pack.id;
+					const cardPending =
+						isThisPack && purchase.variables?.provider !== "paypal";
+					const paypalPending =
+						isThisPack && purchase.variables?.provider === "paypal";
 
 					return (
 						<div
@@ -110,15 +114,30 @@ export const CreditsTab = ({ onSeePlans }: { onSeePlans: () => void }) => {
 								</span>
 							</div>
 
-							<Button
-								size="lg"
-								variant="ghost"
-								className="vst-button-primary mt-5 h-auto w-full cursor-pointer py-2.5 text-sm"
-								disabled={purchase.isPending}
-								onClick={() => purchase.mutate(pack.id)}
-							>
-								{pending ? "Redirecting…" : "Purchase"}
-							</Button>
+							<div className="mt-5 space-y-2">
+								<Button
+									size="lg"
+									variant="ghost"
+									className="vst-button-primary h-auto w-full cursor-pointer py-2.5 text-sm"
+									disabled={purchase.isPending}
+									onClick={() =>
+										purchase.mutate({ packId: pack.id, provider: "stripe" })
+									}
+								>
+									{cardPending ? "Redirecting…" : "Buy with card"}
+								</Button>
+								<Button
+									size="lg"
+									variant="ghost"
+									className="vst-button-ghost h-auto w-full cursor-pointer py-2.5 text-sm"
+									disabled={purchase.isPending}
+									onClick={() =>
+										purchase.mutate({ packId: pack.id, provider: "paypal" })
+									}
+								>
+									{paypalPending ? "Redirecting…" : "PayPal"}
+								</Button>
+							</div>
 						</div>
 					);
 				})}
