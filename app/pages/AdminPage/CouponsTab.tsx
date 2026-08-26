@@ -9,7 +9,9 @@ import {
 	fetchCouponCodes,
 	useAdminCoupons,
 	useGenerateCoupons,
+	useGeneratePlanCodes,
 } from "~/queries/adminCoupons";
+import { usePlans } from "~/queries/plans";
 
 const packLabel = (packId: string | null) => {
 	const pack = TOPUP_PACKS.find((p) => p.id === packId);
@@ -36,6 +38,34 @@ export const CouponsTab = () => {
 	const [genCount, setGenCount] = useState(50);
 	const [lastCodes, setLastCodes] = useState<AdminCoupon[] | null>(null);
 	const generate = useGenerateCoupons();
+
+	// Plan codes
+	const plans = usePlans();
+	const [genPlan, setGenPlan] = useState("");
+	const [genPlanCount, setGenPlanCount] = useState(50);
+	const [genDuration, setGenDuration] = useState(365);
+	const [lastPlanCodes, setLastPlanCodes] = useState<AdminCoupon[] | null>(null);
+	const generatePlan = useGeneratePlanCodes();
+	const planName = (planId: string | null) =>
+		plans.data?.find((p) => p.id === planId)?.name ?? null;
+
+	const onGeneratePlan = () => {
+		const planId = genPlan || plans.data?.[0]?.id;
+		if (!planId) {
+			toast.error("No plans available");
+			return;
+		}
+		generatePlan.mutate(
+			{ planId, count: genPlanCount, durationDays: genDuration },
+			{
+				onSuccess: (data) => {
+					setLastPlanCodes(data);
+					toast.success(`Generated ${data.length} plan codes`);
+				},
+				onError: () => toast.error("Could not generate plan codes"),
+			},
+		);
+	};
 
 	const [filterPack, setFilterPack] = useState("");
 	const [filterStatus, setFilterStatus] = useState<CouponStatus>("all");
@@ -147,6 +177,93 @@ export const CouponsTab = () => {
 				)}
 			</div>
 
+			{/* Generate PLAN codes */}
+			<div className="vst-panel p-6">
+				<div className="mb-1 flex items-center gap-2">
+					<Ticket className="size-5 text-orange-300" />
+					<h3 className="vst-display text-xl text-white">Generate plan codes</h3>
+				</div>
+				<p className="mb-4 text-xs text-white/55">
+					Each code activates a plan (no auto-renew) for the chosen number of
+					days when redeemed. Sell these on Producersources.
+				</p>
+				<div className="flex flex-wrap items-end gap-4">
+					<label className="flex flex-col gap-1 text-xs text-white/60">
+						Plan
+						<select
+							className={selectClass}
+							value={genPlan || plans.data?.[0]?.id || ""}
+							onChange={(e) => setGenPlan(e.target.value)}
+						>
+							{plans.data?.map((p) => (
+								<option key={p.id} value={p.id} className="text-black">
+									{p.name} · {p.credits} credits/mo
+								</option>
+							))}
+						</select>
+					</label>
+					<label className="flex flex-col gap-1 text-xs text-white/60">
+						Duration (days)
+						<input
+							type="number"
+							min={1}
+							max={3650}
+							value={genDuration}
+							onChange={(e) => setGenDuration(Number(e.target.value))}
+							className={`${selectClass} w-28`}
+						/>
+					</label>
+					<label className="flex flex-col gap-1 text-xs text-white/60">
+						How many codes
+						<input
+							type="number"
+							min={1}
+							max={1000}
+							value={genPlanCount}
+							onChange={(e) => setGenPlanCount(Number(e.target.value))}
+							className={`${selectClass} w-28`}
+						/>
+					</label>
+					<Button
+						variant="ghost"
+						disabled={generatePlan.isPending || !plans.data?.length}
+						className="vst-button-primary h-auto cursor-pointer px-6 py-2"
+						onClick={onGeneratePlan}
+					>
+						{generatePlan.isPending ? "Generating…" : "Generate"}
+					</Button>
+				</div>
+
+				{lastPlanCodes && (
+					<div className="mt-5 rounded-xl border border-white/12 bg-black/25 p-4">
+						<div className="mb-2 flex items-center justify-between">
+							<p className="text-sm text-white/80">
+								{lastPlanCodes.length} new plan codes ·{" "}
+								{planName(lastPlanCodes[0]?.planId ?? null) ?? "plan"} ·{" "}
+								{lastPlanCodes[0]?.durationDays ?? 365} days
+							</p>
+							<Button
+								variant="ghost"
+								className="vst-button-ghost h-auto cursor-pointer px-4 py-1.5 text-xs"
+								onClick={() =>
+									downloadTxt(
+										`summonic-plan-codes-${planName(lastPlanCodes[0]?.planId ?? null) ?? "plan"}.txt`,
+										lastPlanCodes.map((c) => c.code),
+									)
+								}
+							>
+								<Download className="mr-1 size-3.5" /> Download .txt
+							</Button>
+						</div>
+						<div className="max-h-40 overflow-y-auto font-mono text-xs leading-5 text-white/70">
+							{lastPlanCodes.map((c) => (
+								<div key={c.id}>{c.code}</div>
+							))}
+						</div>
+					</div>
+				)}
+			</div>
+
 			{/* Filters + list */}
 			<div className="flex flex-wrap items-end gap-3">
 				<label className="flex flex-col gap-1 text-xs text-white/60">
@@ -214,7 +331,7 @@ export const CouponsTab = () => {
 							<thead className="border-b border-white/10 text-xs uppercase tracking-wide text-white/50">
 								<tr>
 									<th className="px-4 py-3">Code</th>
-									<th className="px-4 py-3">Package</th>
+									<th className="px-4 py-3">Grants</th>
 									<th className="px-4 py-3">Credits</th>
 									<th className="px-4 py-3">Status</th>
 									<th className="px-4 py-3">Created</th>
@@ -228,9 +345,13 @@ export const CouponsTab = () => {
 									>
 										<td className="px-4 py-3 font-mono text-white">{c.code}</td>
 										<td className="px-4 py-3 text-white/70">
-											{packLabel(c.packId)}
+											{c.planId
+												? `${planName(c.planId) ?? "Plan"} · ${c.durationDays ?? 365}d`
+												: packLabel(c.packId)}
 										</td>
-										<td className="px-4 py-3 text-white/80">{c.tokens}</td>
+										<td className="px-4 py-3 text-white/80">
+											{c.planId ? "plan" : c.tokens}
+										</td>
 										<td className="px-4 py-3">
 											<span
 												className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${

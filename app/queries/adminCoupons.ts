@@ -9,6 +9,8 @@ export type AdminCoupon = {
 	tokens: number;
 	used: boolean;
 	packId: string | null;
+	planId: string | null;
+	durationDays: number | null;
 	usedByUserId: string | null;
 	createdAt: string;
 };
@@ -20,6 +22,23 @@ export const useGenerateCoupons = () =>
 		mutationFn: async (body) => {
 			const { data } = await apiClient.post<AdminCoupon[]>(
 				"/coupons/generate",
+				body,
+			);
+			return data;
+		},
+		onSuccess: () =>
+			queryClient.invalidateQueries({ queryKey: ["admin", "coupons"] }),
+	});
+
+export const useGeneratePlanCodes = () =>
+	useMutation<
+		AdminCoupon[],
+		AxiosError,
+		{ planId: string; count: number; durationDays: number }
+	>({
+		mutationFn: async (body) => {
+			const { data } = await apiClient.post<AdminCoupon[]>(
+				"/coupons/generate-plan",
 				body,
 			);
 			return data;
