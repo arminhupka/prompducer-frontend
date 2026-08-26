@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
+import { trackBeginCheckout } from "~/lib/analytics";
 import { apiClient } from "~/lib/apiClient";
 
 type CreditCheckoutResponse = { url: string | null };
@@ -27,6 +28,7 @@ export const usePurchaseCredits = () =>
 		},
 		onSuccess: (data) => {
 			if (data.url) {
+				trackBeginCheckout("credits");
 				window.location.assign(data.url);
 				return;
 			}

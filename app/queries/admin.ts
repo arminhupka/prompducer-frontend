@@ -14,6 +14,8 @@ export type AdminOverview = {
 		failed: number;
 		pending: number;
 	};
+	generationsDaily: { date: string; count: number }[];
+	funnel: { signedUp: number; generated: number; subscribed: number };
 	planDistribution: { name: string; count: number }[];
 	signups: { date: string; count: number }[];
 };

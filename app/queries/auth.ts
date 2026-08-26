@@ -8,6 +8,7 @@ import type {
 } from "api/api-types";
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
+import { trackSignup } from "~/lib/analytics";
 import { apiClient } from "~/lib/apiClient";
 import { getApiErrorMessage } from "~/lib/getApiErrorMessage";
 import { getMachineId } from "~/lib/machineId";
@@ -32,7 +33,10 @@ export const useRegister = (props?: IUseAuthMutation) =>
 			});
 			return data;
 		},
-		onSuccess: props?.onSuccess,
+		onSuccess: async () => {
+			trackSignup();
+			await props?.onSuccess?.();
+		},
 		onError: (error) => {
 			toast.error(
 				getApiErrorMessage(error) ??

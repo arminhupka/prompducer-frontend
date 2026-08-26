@@ -47,13 +47,17 @@ const StatCard = ({
 	</div>
 );
 
-const SignupsChart = ({ data }: { data: AdminOverview["signups"] }) => {
+const BarChart = ({
+	title,
+	data,
+}: {
+	title: string;
+	data: { date: string; count: number }[];
+}) => {
 	const max = Math.max(1, ...data.map((d) => d.count));
 	return (
 		<div className="vst-panel p-5">
-			<p className="mb-4 text-sm font-semibold text-white">
-				Signups · last 14 days
-			</p>
+			<p className="mb-4 text-sm font-semibold text-white">{title}</p>
 			<div className="flex h-40 items-end gap-1.5">
 				{data.map((d) => (
 					<div
@@ -112,6 +116,41 @@ const PlanDistribution = ({
 					))}
 				</div>
 			)}
+		</div>
+	);
+};
+
+const FunnelCard = ({ funnel }: { funnel: AdminOverview["funnel"] }) => {
+	const rows = [
+		{ label: "Signed up", value: funnel.signedUp, color: "from-pink-500 to-orange-400" },
+		{ label: "Generated a sound", value: funnel.generated, color: "from-cyan-400 to-emerald-400" },
+		{ label: "Active subscriber", value: funnel.subscribed, color: "from-violet-500 to-fuchsia-400" },
+	];
+	const base = Math.max(1, funnel.signedUp);
+	return (
+		<div className="vst-panel p-5">
+			<p className="mb-4 text-sm font-semibold text-white">Conversion funnel</p>
+			<div className="space-y-3.5">
+				{rows.map((r, i) => (
+					<div key={r.label}>
+						<div className="mb-1 flex items-baseline justify-between text-xs">
+							<span className="text-white/70">{r.label}</span>
+							<span className="font-semibold text-white/90">
+								{r.value.toLocaleString()}
+								{i > 0 && funnel.signedUp > 0
+									? ` · ${Math.round((r.value / funnel.signedUp) * 100)}%`
+									: ""}
+							</span>
+						</div>
+						<div className="h-2.5 w-full rounded-full bg-white/10">
+							<div
+								className={`h-full rounded-full bg-gradient-to-r ${r.color}`}
+								style={{ width: `${Math.max(3, (r.value / base) * 100)}%` }}
+							/>
+						</div>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 };
@@ -184,8 +223,13 @@ const OverviewTab = () => {
 			</div>
 
 			<div className="grid gap-4 lg:grid-cols-2">
-				<SignupsChart data={d.signups} />
+				<BarChart title="Signups · last 14 days" data={d.signups} />
+				<BarChart title="Generations · last 14 days" data={d.generationsDaily} />
+			</div>
+
+			<div className="grid gap-4 lg:grid-cols-2">
 				<PlanDistribution data={d.planDistribution} />
+				<FunnelCard funnel={d.funnel} />
 			</div>
 		</div>
 	);

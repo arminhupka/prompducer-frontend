@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { apiClient } from "~/lib/apiClient";
 import { getApiErrorMessage } from "~/lib/getApiErrorMessage";
 import { queryClient } from "~/lib/queryClient";
+import { trackBeginCheckout } from "~/lib/analytics";
 import { getMe } from "~/queries/auth";
 import { setUser } from "~/stores/authStore";
 
@@ -44,6 +45,7 @@ export const useActivatePlan = (props?: IUseActivatePlanMutation) =>
 		},
 		onSuccess: async (data) => {
 			if (data.url) {
+				trackBeginCheckout("subscription");
 				await props?.onSuccess?.();
 				window.location.assign(data.url);
 				return;
