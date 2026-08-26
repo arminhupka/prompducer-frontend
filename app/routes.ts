@@ -8,6 +8,7 @@ import {
 export default [
 	layout("layouts/AppLayout.tsx", [
 		index("routes/home.tsx"),
+		route("/download", "routes/download.tsx"),
 		route("/plans", "routes/plans.tsx"),
 		route("/login", "routes/login.tsx"),
 		route("/reset-password", "routes/reset-password.tsx"),

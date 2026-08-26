@@ -7,6 +7,7 @@ import { clearUser, useAuthStore } from "~/stores/authStore";
 
 const NAV_LINKS = [
 	{ label: "Product", to: "/", end: true },
+	{ label: "Download", to: "/download", end: false },
 	{ label: "Plans", to: "/plans", end: false },
 	{ label: "My Account", to: "/account", end: false },
 ];
