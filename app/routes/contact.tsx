@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { seo } from "~/lib/seo";
 import { CheckCircle2, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -8,14 +9,12 @@ import { Label } from "~/components/ui/label";
 import { useSendContact } from "~/queries/contact";
 
 export function meta() {
-	return [
-		{ title: "Contact | SUMMONIC" },
-		{
-			name: "description",
-			content:
-				"Get in touch with the SUMMONIC team for support, billing, or partnership questions.",
-		},
-	];
+	return seo({
+		title: "Contact",
+		path: "/contact",
+		description:
+			"Get in touch with the SUMMONIC team for support, billing, or partnership questions.",
+	});
 }
 
 const schema = z.object({

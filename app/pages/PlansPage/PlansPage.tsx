@@ -9,6 +9,7 @@ import {
 	useChangePlan,
 	usePlans,
 } from "~/queries/plans";
+import { COMING_SOON } from "~/lib/flags";
 import { useAuthStore } from "~/stores/authStore";
 import { CreditsTab } from "./CreditsTab";
 
@@ -61,13 +62,17 @@ const PlansPage = () => {
 					{tab === "plans" ? "Choose your plan" : "Buy more credits"}
 				</h1>
 				<p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/78 sm:text-base">
-					{tab === "plans"
-						? "Every generation gives you 3 unique instruments and costs 3 credits. Pick the plan that matches how much you create - cancel any time."
-						: "Running low mid-session? Top up instantly. Top-ups are available on any paid plan."}
+					{COMING_SOON
+						? "Every generation gives you 3 unique instruments and costs 3 credits. Plans open at launch - create a free account now and we'll email you the moment they go live."
+						: tab === "plans"
+							? "Every generation gives you 3 unique instruments and costs 3 credits. Pick the plan that matches how much you create - cancel any time."
+							: "Running low mid-session? Top up instantly. Top-ups are available on any paid plan."}
 				</p>
 			</section>
 
-			{/* Tab switcher */}
+			{/* Tab switcher - the credits (top-up) tab is a payment, so it stays
+			    hidden until launch. */}
+			{!COMING_SOON && (
 			<div className="mx-auto flex w-fit items-center gap-1 rounded-full border border-white/15 bg-black/25 p-1 backdrop-blur-sm">
 				{(["plans", "credits"] as Tab[]).map((value) => (
 					<button
@@ -84,6 +89,7 @@ const PlansPage = () => {
 					</button>
 				))}
 			</div>
+			)}
 
 			{/* Billing period toggle */}
 			{tab === "plans" && (
@@ -157,7 +163,9 @@ const PlansPage = () => {
 
 						{!plans.isLoading && (plans.data?.length ?? 0) > 0 && (
 							<div className="grid items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-4">
-								{plans.data?.map((plan) => {
+								{[...(plans.data ?? [])]
+									.sort((a, b) => a.price - b.price)
+									.map((plan) => {
 									const isCurrent = activePlanName === plan.name;
 									const isPreferred = plan.id === preferredId;
 									const firstMonth = plan.price
@@ -212,15 +220,29 @@ const PlansPage = () => {
 												</p>
 											)}
 
-											<div className="mt-4 flex items-center gap-2 rounded-xl border border-white/12 bg-white/10 px-4 py-3">
-												<Coins className="size-4 text-emerald-300" />
-												<span className="text-sm text-white">
-													<span className="font-bold">{plan.credits}</span>{" "}
-													credits / month
-												</span>
-												<span className="ml-auto text-xs text-white/55">
-													≈ {Math.floor(plan.credits / 3)} generations
-												</span>
+											<div className="mt-4 rounded-xl border border-white/12 bg-white/10 px-4 py-3">
+												<div className="flex items-center gap-2">
+													<Coins className="size-4 text-emerald-300" />
+													<span className="text-sm text-white">
+														<span className="font-bold">{plan.credits}</span>{" "}
+														credits / month
+													</span>
+												</div>
+												<div className="mt-1.5 flex items-center gap-x-2 text-xs text-white/60">
+													<span>
+														<span className="font-semibold text-white/80">
+															{plan.credits.toLocaleString()}
+														</span>{" "}
+														unique instruments
+													</span>
+													<span className="text-white/30">/</span>
+													<span>
+														<span className="font-semibold text-white/80">
+															{Math.floor(plan.credits / 3).toLocaleString()}
+														</span>{" "}
+														generations
+													</span>
+												</div>
 											</div>
 
 											{plan.features?.length > 0 && (
@@ -238,7 +260,31 @@ const PlansPage = () => {
 											)}
 
 											<div className="mt-7 pt-1">
-												{!user && (
+												{/* Pre-launch: payments are gated behind a
+												    "Coming soon" state until COMING_SOON is
+												    turned off. Sign-up stays open. */}
+												{COMING_SOON && (
+													<div className="space-y-2">
+														<div className="flex h-auto w-full items-center justify-center rounded-md border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white/70">
+															<Sparkles className="mr-2 size-4 text-cyan-200" />
+															Coming soon
+														</div>
+														{!user && (
+															<Button
+																size="lg"
+																variant="ghost"
+																className="vst-button-ghost h-auto w-full cursor-pointer py-3"
+																asChild={true}
+															>
+																<Link to="/register">
+																	Create a free account
+																</Link>
+															</Button>
+														)}
+													</div>
+												)}
+
+												{!COMING_SOON && !user && (
 													<Button
 														size="lg"
 														variant="ghost"
@@ -249,7 +295,7 @@ const PlansPage = () => {
 													</Button>
 												)}
 
-												{user && isCurrent && (
+												{!COMING_SOON && user && isCurrent && (
 													<Button
 														size="lg"
 														variant="ghost"
@@ -261,7 +307,7 @@ const PlansPage = () => {
 												)}
 
 												{/* Existing subscriber → in-place upgrade/downgrade (Stripe proration). */}
-												{user && !isCurrent && hasActiveSub && (
+												{!COMING_SOON && user && !isCurrent && hasActiveSub && (
 													<Button
 														size="lg"
 														variant="ghost"
@@ -277,7 +323,7 @@ const PlansPage = () => {
 												)}
 
 												{/* New subscriber → card or PayPal checkout. */}
-												{user && !isCurrent && !hasActiveSub && (
+												{!COMING_SOON && user && !isCurrent && !hasActiveSub && (
 													<div className="space-y-2">
 														<Button
 															size="lg"

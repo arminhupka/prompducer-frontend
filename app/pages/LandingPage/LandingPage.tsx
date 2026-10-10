@@ -186,16 +186,17 @@ const LandingPage = () => {
 					</div>
 					<div>
 						<h2 className="vst-display text-2xl text-white sm:text-3xl">
-							Not a sample library. Real generation.
+							Real generation. Yours alone. Endless.
 						</h2>
 						<p className="mt-2 max-w-3xl text-sm leading-6 text-white/78 sm:text-base">
-							SUMMONIC doesn&apos;t search a pack of pre-cleared loops. It{" "}
+							SUMMONIC{" "}
 							<span className="font-semibold text-white">
 								generates the audio from scratch
 							</span>{" "}
-							every time, so each instrument is a unique sound that has never
-							existed before - and it belongs only to you. Use it in your records
-							with zero sample-clearance worries.
+							from your prompt, so each instrument is a brand-new sound that has
+							never existed before, belongs only to you, and never runs out - an
+							infinity of sounds. Use it in your records with zero
+							sample-clearance worries.
 						</p>
 					</div>
 				</div>

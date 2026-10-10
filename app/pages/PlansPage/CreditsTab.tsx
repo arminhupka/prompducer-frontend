@@ -90,7 +90,9 @@ export const CreditsTab = ({ onSeePlans }: { onSeePlans: () => void }) => {
 									{pack.credits.toLocaleString()}
 								</span>
 							</div>
-							<p className="mt-1 text-xs text-white/55">credits</p>
+							<p className="mt-1 text-xs text-white/55">
+								credits = {pack.credits.toLocaleString()} unique instruments
+							</p>
 
 							<p className="mt-2 min-h-4 text-xs text-white/60">
 								{pack.bonus > 0 ? (

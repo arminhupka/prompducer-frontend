@@ -18,9 +18,11 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
 		title: "Product",
 		links: [
 			{ label: "Overview", to: "/" },
+			{ label: "Download", to: "/download" },
+			{ label: "Generate instruments", to: "/instruments" },
+			{ label: "In your DAW", to: "/daw" },
 			{ label: "Plans & credits", to: "/plans" },
 			{ label: "About", to: "/about" },
-			{ label: "Create account", to: "/register" },
 		],
 	},
 	{

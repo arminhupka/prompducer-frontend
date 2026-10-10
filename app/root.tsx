@@ -6,7 +6,19 @@ import "./app.css";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "~/lib/queryClient";
 import { GA4_ID, META_PIXEL_ID, pageview } from "~/lib/analytics";
+import { SITE_JSONLD } from "~/lib/seo";
 import GlobalAudioProvider from "~/providers/GlobalAudioProvider";
+
+/** Site-wide Organization / WebSite / SoftwareApplication structured data. */
+function SiteJsonLd() {
+	return (
+		<script
+			type="application/ld+json"
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD graph
+			dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSONLD) }}
+		/>
+	);
+}
 
 /** GA4 + Meta Pixel base tags. Rendered only when the env IDs are set. */
 function AnalyticsScripts() {
@@ -48,6 +60,7 @@ export const links: Route.LinksFunction = () => [
 	{ rel: "icon", href: "/favicon.ico", sizes: "any" },
 	{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
 	{ rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+	{ rel: "manifest", href: "/site.webmanifest" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -63,8 +76,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					name="apple-mobile-web-app-status-bar-style"
 					content="black-translucent"
 				/>
+				{/* Per-page title, description, canonical, Open Graph, Twitter and
+				    JSON-LD come from each route's meta() (see app/lib/seo.ts) and are
+				    baked into static HTML at build by the prerenderer, so every crawler
+				    and social scraper gets the correct per-page card - no SPA shell
+				    defaults needed. */}
 				<Meta />
 				<Links />
+				<SiteJsonLd />
 				<AnalyticsScripts />
 			</head>
 			<body>

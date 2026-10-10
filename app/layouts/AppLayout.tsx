@@ -5,39 +5,43 @@ import { Toaster } from "sonner";
 import AppHeader from "~/components/molecules/AppHeader/AppHeader";
 import SiteFooter from "~/components/molecules/SiteFooter/SiteFooter";
 import { clearUser, setUser } from "~/stores/authStore";
-import type { Route } from "./+types/AppLayout";
 
-export async function clientLoader(): Promise<MeResponseDto | null> {
-	const token = localStorage.getItem("token");
-
-	if (!token) {
-		return null;
-	}
-
-	const resp = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	});
-
-	if (resp.ok) {
-		return resp.json() as Promise<MeResponseDto>;
-	}
-
-	return null;
-}
-
-const AppLayout = ({ loaderData }: Route.ComponentProps) => {
-	const user = loaderData;
-
+/**
+ * Auth hydration runs in a client-side effect (not a clientLoader) on purpose:
+ * a clientLoader on this shared layout can't run at build time, so with SPA-mode
+ * prerendering (ssr:false) React Router would render a hydrate fallback and ship
+ * an empty <body> for every prerendered page. Doing it in an effect keeps the
+ * marketing pages fully server-rendered to static HTML for crawlers.
+ */
+const AppLayout = () => {
 	useEffect(() => {
-		if (user) {
-			setUser(user);
+		const token = localStorage.getItem("token");
+		if (!token) {
+			clearUser();
 			return;
 		}
 
-		clearUser();
-	}, [user]);
+		let cancelled = false;
+		fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+			.then((resp) => (resp.ok ? (resp.json() as Promise<MeResponseDto>) : null))
+			.then((user) => {
+				if (cancelled) return;
+				if (user) {
+					setUser(user);
+				} else {
+					clearUser();
+				}
+			})
+			.catch(() => {
+				if (!cancelled) clearUser();
+			});
+
+		return () => {
+			cancelled = true;
+		};
+	}, []);
 
 	return (
 		<div className="vst-stage min-h-svh overflow-hidden">

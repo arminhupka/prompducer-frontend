@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import { COMING_SOON } from "~/lib/flags";
 
 const DOWNLOADS = {
 	mac: "https://s3.amazonaws.com/producersources2/SUMMONIC/SUMMONIC%20MacOS.zip",
@@ -70,18 +71,57 @@ const DownloadPage = () => {
 			<section className="mx-auto max-w-3xl text-center">
 				<div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80 backdrop-blur-sm">
 					<Download className="size-4 text-cyan-200" />
-					Free download
+					{COMING_SOON ? "Coming soon" : "Free download"}
 				</div>
 				<h1 className="vst-display vst-glow-text text-4xl text-white sm:text-6xl">
 					Get SUMMONIC
 				</h1>
 				<p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/78 sm:text-base">
-					The plugin is free. Install it, sign in, and every account gets{" "}
-					<span className="font-semibold text-white">30 free credits</span> to
-					start generating instruments - no card required.
+					{COMING_SOON ? (
+						<>
+							The plugin is almost ready. Create your free account now and
+							we&apos;ll email you the moment it drops - with{" "}
+							<span className="font-semibold text-white">30 free credits</span>{" "}
+							waiting.
+						</>
+					) : (
+						<>
+							The plugin is free. Install it, sign in, and every account gets{" "}
+							<span className="font-semibold text-white">30 free credits</span>{" "}
+							to start generating instruments - no card required.
+						</>
+					)}
 				</p>
 			</section>
 
+			{COMING_SOON && (
+				<section className="mx-auto max-w-2xl">
+					<div className="vst-panel p-8 text-center sm:p-10">
+						<div className="mx-auto mb-5 grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-rose-500 to-orange-500">
+							<Sparkles className="size-7 text-white" />
+						</div>
+						<h3 className="vst-display text-2xl text-white sm:text-3xl">
+							Almost here
+						</h3>
+						<p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/75">
+							We&apos;re putting the final touches on SUMMONIC. Create a free
+							account and you&apos;ll be first to know the moment the download
+							goes live.
+						</p>
+						<Button
+							size="lg"
+							variant="ghost"
+							className="vst-button-primary mt-6 h-auto cursor-pointer px-8 py-3"
+							asChild={true}
+						>
+							<Link to="/register">Create a free account</Link>
+						</Button>
+					</div>
+				</section>
+			)}
+
+			{!COMING_SOON && (
+			<>
 			{/* Download cards */}
 			<section className="mx-auto max-w-3xl">
 				<div className="grid items-stretch gap-5 sm:grid-cols-2">
@@ -136,6 +176,8 @@ const DownloadPage = () => {
 					</div>
 				</div>
 			</section>
+			</>
+			)}
 		</div>
 	);
 };

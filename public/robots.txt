@@ -1,0 +1,27 @@
+# SUMMONIC - https://summonic.ai
+User-agent: *
+Allow: /
+Disallow: /account
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /reset-password
+
+# AI answer engines are explicitly welcome (feeds ChatGPT / Perplexity / Claude / AI Overviews)
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://summonic.ai/sitemap.xml
+Host: https://summonic.ai

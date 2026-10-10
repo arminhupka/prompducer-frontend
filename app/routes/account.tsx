@@ -1,14 +1,14 @@
 import { redirectUnauthenticatedUser } from "~/lib/routeGuards";
+import { seo } from "~/lib/seo";
 import AccountPage from "~/pages/AccountPage/AccountPage";
 
 export function meta() {
-	return [
-		{ title: "Account | SUMMONIC" },
-		{
-			name: "description",
-			content: "Manage your prompts and subscription in SUMMONIC.",
-		},
-	];
+	return seo({
+		title: "Account",
+		path: "/account",
+		description: "Manage your prompts and subscription in SUMMONIC.",
+		noindex: true,
+	});
 }
 
 export async function clientLoader() {

@@ -1,13 +1,12 @@
 import { ContentPage } from "~/components/content/ContentPage";
+import { seo } from "~/lib/seo";
 
 export function meta() {
-	return [
-		{ title: "Refund Policy | SUMMONIC" },
-		{
-			name: "description",
-			content: "SUMMONIC's policy on subscription and credit refunds.",
-		},
-	];
+	return seo({
+		title: "Refund Policy",
+		path: "/refunds",
+		description: "SUMMONIC's policy on subscription and credit refunds.",
+	});
 }
 
 export default function Refunds() {

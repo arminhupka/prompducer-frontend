@@ -1,14 +1,12 @@
 import { ContentPage } from "~/components/content/ContentPage";
+import { seo } from "~/lib/seo";
 
 export function meta() {
-	return [
-		{ title: "Privacy Policy | SUMMONIC" },
-		{
-			name: "description",
-			content:
-				"How SUMMONIC collects, uses, and protects your personal data.",
-		},
-	];
+	return seo({
+		title: "Privacy Policy",
+		path: "/privacy",
+		description: "How SUMMONIC collects, uses, and protects your personal data.",
+	});
 }
 
 export default function Privacy() {

@@ -1,13 +1,12 @@
 import { ContentPage } from "~/components/content/ContentPage";
+import { seo } from "~/lib/seo";
 
 export function meta() {
-	return [
-		{ title: "Acceptable Use Policy | SUMMONIC" },
-		{
-			name: "description",
-			content: "The rules for using SUMMONIC responsibly.",
-		},
-	];
+	return seo({
+		title: "Acceptable Use Policy",
+		path: "/acceptable-use",
+		description: "The rules for using SUMMONIC responsibly.",
+	});
 }
 
 export default function AcceptableUse() {

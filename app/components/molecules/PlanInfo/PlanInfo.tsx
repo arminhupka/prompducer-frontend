@@ -13,6 +13,7 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
+import { COMING_SOON } from "~/lib/flags";
 import { TOPUP_PACKS } from "~/lib/topups";
 import { usePurchaseCredits } from "~/queries/credits";
 import { useChangePlan, useDeactivatePlan, usePlans } from "~/queries/plans";
@@ -135,9 +136,12 @@ const PlanInfo = () => {
 					</Button>
 				)}
 
-				{/* Subscribed → change plan + top-ups + cancel. */}
+				{/* Subscribed → change plan + top-ups + cancel. Change-plan and
+				    top-ups are payments, so they stay hidden until launch. */}
 				{isActive && (
 					<>
+						{!COMING_SOON && (
+						<>
 						<div className="space-y-2">
 							<p className="text-xs font-semibold uppercase tracking-wide text-white/55">
 								Change plan
@@ -228,6 +232,8 @@ const PlanInfo = () => {
 						</div>
 
 						<Separator className="bg-white/10" />
+						</>
+						)}
 
 						<Button
 							size="lg"

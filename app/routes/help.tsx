@@ -1,16 +1,23 @@
 import type { ReactNode } from "react";
+import { FAQ_SCHEMA } from "~/content/faq";
+import { faqLd, jsonLd, seo } from "~/lib/seo";
 import { Link } from "react-router";
 import { ContentPage } from "~/components/content/ContentPage";
 
 export function meta() {
-	return [
-		{ title: "Help Center | SUMMONIC" },
-		{
-			name: "description",
-			content:
-				"Everything about SUMMONIC - install, generating, sounds & presets, moving between computers, credits, plans, coupon codes, billing and troubleshooting.",
-		},
-	];
+	return seo({
+		title: "Help Center & FAQ",
+		path: "/help",
+		description:
+			"Everything about SUMMONIC - install, generating, sounds & presets, moving between computers, credits, plans, coupon codes, billing and troubleshooting.",
+		keywords: [
+			"SUMMONIC help",
+			"SUMMONIC FAQ",
+			"how to use SUMMONIC",
+			"AI instrument plugin support",
+		],
+		extra: [jsonLd(faqLd(FAQ_SCHEMA))],
+	});
 }
 
 type QA = { q: string; a: ReactNode };
@@ -26,7 +33,7 @@ const SECTIONS: Section[] = [
 					<p>
 						SUMMONIC is a real audio-generation instrument plugin. You type a
 						prompt and it generates brand-new, fully playable instruments right
-						inside your DAW - not a sample library or a search engine.
+						inside your DAW - real sounds created from your words, unique to you.
 					</p>
 				),
 			},

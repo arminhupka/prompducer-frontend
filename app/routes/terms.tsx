@@ -1,14 +1,13 @@
 import { ContentPage } from "~/components/content/ContentPage";
+import { seo } from "~/lib/seo";
 
 export function meta() {
-	return [
-		{ title: "Terms of Service | SUMMONIC" },
-		{
-			name: "description",
-			content:
-				"The terms that govern your use of SUMMONIC, the AI audio-generation plugin by Producersources.",
-		},
-	];
+	return seo({
+		title: "Terms of Service",
+		path: "/terms",
+		description:
+			"The terms that govern your use of SUMMONIC, the text-to-audio plugin by Producersources.",
+	});
 }
 
 export default function Terms() {

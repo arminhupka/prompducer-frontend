@@ -1,0 +1,44 @@
+# SUMMONIC
+
+> SUMMONIC is a text-to-audio instrument plugin. You describe an instrument in
+> plain words and it generates a brand-new, fully playable sound inside your DAW,
+> then lets you shape it and own it royalty-free. It runs as VST3, AU and AAX on
+> macOS (Apple Silicon + Intel) and Windows x64. The plugin is a free download;
+> generation runs on a monthly credit plan.
+
+Site: https://summonic.ai
+Maker: Producersources (https://producersources.com)
+
+## What it does
+- Generate original instruments from a text prompt (three variations per generation).
+- Shape a generated clip into a playable instrument: loop, pitch-fix, stretch, glide.
+- Finish the sound with a built-in rack: EQ, compressor, drive, chorus, tempo delay, reverb, modulation.
+- Save results as searchable presets - your own growing sound library.
+- Every sound is royalty-free and unique to you.
+
+## Who it is for
+Music producers, beatmakers and sound designers who want custom sounds without
+digging through sample packs or programming synth patches.
+
+## Pricing
+- Free: download the plugin, 30 starter credits (about 10 generations).
+- Starter $3.99/mo, Creator $7.99/mo, Pro $14.99/mo, Studio $29.99/mo.
+- Each generation costs 3 credits and returns 3 options. Credits refresh monthly.
+- Yearly plan codes are also sold on Producersources (2 months free), no auto-renew.
+
+## Key pages
+- Download (free): https://summonic.ai/download
+- Plans & pricing: https://summonic.ai/plans
+- Generate any instrument (use cases): https://summonic.ai/instruments
+- Help & FAQ: https://summonic.ai/help
+
+## Common questions
+- Is it free? The plugin is free with starter credits; paid plans add monthly credits.
+- Do I own the sounds? Yes, everything you generate is royalty-free and yours.
+- Formats/OS? VST3, AU, AAX on macOS and Windows.
+- Does it need internet? Yes, generation runs on a cloud GPU engine.
+
+## Example prompts
+"Warm analog Moog bass", "Long distorted 808 with a hard knock",
+"Heavily distorted crunchy electric guitar with a sustained attack",
+"Dusty lo-fi piano with vinyl crackle", "Dark trap bell, detuned".

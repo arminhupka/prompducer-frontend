@@ -1,15 +1,14 @@
 import { Link } from "react-router";
+import { seo } from "~/lib/seo";
 import { ContentPage } from "~/components/content/ContentPage";
 
 export function meta() {
-	return [
-		{ title: "About | SUMMONIC" },
-		{
-			name: "description",
-			content:
-				"SUMMONIC is a real audio-generation plugin by Producersources - imagine an instrument and generate it.",
-		},
-	];
+	return seo({
+		title: "About",
+		path: "/about",
+		description:
+			"SUMMONIC is a text-to-audio instrument plugin by Producersources - imagine an instrument and generate it, then own every sound you make.",
+	});
 }
 
 export default function About() {
