@@ -139,8 +139,9 @@ const SECTIONS: Section[] = [
 				q: "Where are my generated sounds stored?",
 				a: (
 					<p>
-						Locally on the computer you generated them on - and every prompt is
-						saved to your account history, so nothing is ever lost.
+						Only on the computer you generated them on, in the samples folder
+						chosen in the plugin (Settings → Samples). SUMMONIC does not upload
+						your sounds, so back that folder up like any other audio.
 					</p>
 				),
 			},
@@ -148,9 +149,9 @@ const SECTIONS: Section[] = [
 				q: "How do I get my sounds on another computer?",
 				a: (
 					<p>
-						Log in on that machine, open <strong>Prompt History</strong> on the
-						Sounds tab, select the prompt, and download its samples again (per
-						prompt). Your generations follow your account.
+						Copy your samples folder (Settings → Samples in the plugin) to the
+						other computer and point the plugin at it. Sounds are not stored in
+						your account.
 					</p>
 				),
 			},
@@ -168,10 +169,9 @@ const SECTIONS: Section[] = [
 				q: "How do I move my presets to another computer?",
 				a: (
 					<p>
-						On the <strong>Account</strong> tab, press <strong>Back Up Presets</strong>{" "}
-						(on the computer that has them), then on the other computer press{" "}
-						<strong>Restore Presets</strong>. Restore only brings back presets you
-						previously backed up.
+						Presets are files in your SUMMONIC preset library (Documents →
+						SUMMONIC). Copy them to the same folder on the other computer, or open
+						one with <strong>Load Preset</strong>.
 					</p>
 				),
 			},
@@ -185,9 +185,10 @@ const SECTIONS: Section[] = [
 				a: (
 					<p>
 						Every Generate creates <strong>three options</strong> and costs{" "}
-						<strong>3 credits</strong> (1 per option). New users get a one-time 30
-						free credits. Only Generate costs credits - browsing, playing, effects
-						and backups are free.
+						<strong>1 credit per sound</strong> it actually produces (up to 3). If
+						an option fails, its credit comes back automatically. New users get a
+						one-time 30 free credits. Only Generate costs credits - browsing,
+						playing and effects are free.
 					</p>
 				),
 			},
@@ -326,10 +327,9 @@ const SECTIONS: Section[] = [
 				q: "My sounds or presets aren't on my new computer.",
 				a: (
 					<p>
-						Sounds: log in and re-download them from <strong>Prompt History</strong>.
-						Presets: make sure you pressed <strong>Back Up Presets</strong> on the
-						original computer, then <strong>Restore Presets</strong> on the new
-						one.
+						Sounds and presets live only on the computer that made them. Copy
+						your samples folder and your SUMMONIC preset library (Documents →
+						SUMMONIC) from the original computer to the new one.
 					</p>
 				),
 			},

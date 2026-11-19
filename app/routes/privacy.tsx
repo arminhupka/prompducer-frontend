@@ -43,7 +43,7 @@ export default function Privacy() {
 			<h2>2. How we use your data</h2>
 			<ul>
 				<li>To create your account and authenticate you.</li>
-				<li>To generate audio from your prompts and store your results.</li>
+				<li>To bill your generations: we keep each prompt and how many sounds it produced. The audio itself never leaves your computer.</li>
 				<li>To process payments, credits, and subscriptions.</li>
 				<li>To provide support and respond to your messages.</li>
 				<li>To detect abuse and keep the Service secure.</li>
