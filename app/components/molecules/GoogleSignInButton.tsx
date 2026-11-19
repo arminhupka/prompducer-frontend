@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { googleErrorMessage, googleSignInUrl } from "~/lib/googleAuth";
@@ -38,6 +38,15 @@ const GoogleSignInButton = ({
 	label = "Continue with Google",
 }: GoogleSignInButtonProps) => {
 	const [isRedirecting, setIsRedirecting] = useState(false);
+
+	// Back/forward cache restores the page with the redirecting state frozen.
+	useEffect(() => {
+		const onPageShow = (event: PageTransitionEvent) => {
+			if (event.persisted) setIsRedirecting(false);
+		};
+		window.addEventListener("pageshow", onPageShow);
+		return () => window.removeEventListener("pageshow", onPageShow);
+	}, []);
 
 	const handleClick = async () => {
 		setIsRedirecting(true);
