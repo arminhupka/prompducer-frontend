@@ -20,6 +20,7 @@ export async function clientLoader() {
 	const token = readTokenFromHash(window.location.hash);
 	if (!token) return redirect(FAILED);
 
+	const previous = localStorage.getItem("token");
 	localStorage.setItem("token", token);
 	// Drop the fragment from the address bar / history immediately.
 	window.history.replaceState(null, "", "/auth/google/callback");
@@ -27,7 +28,9 @@ export async function clientLoader() {
 	try {
 		setUser(await getMe());
 	} catch {
-		localStorage.removeItem("token");
+		// Restore the prior session so a transient failure does not sign out.
+		if (previous) localStorage.setItem("token", previous);
+		else localStorage.removeItem("token");
 		clearUser();
 		return redirect(FAILED);
 	}
