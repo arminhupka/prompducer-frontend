@@ -2,6 +2,7 @@
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router";
 import TextFormInput from "~/components/atoms/inputs/TextFormInput";
+import GoogleSignInButton from "~/components/molecules/GoogleSignInButton";
 import { Button } from "~/components/ui/button";
 import {
 	Card,
@@ -26,6 +27,12 @@ const LoginFormContent = () => {
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="flex flex-col gap-5 px-6">
+				<GoogleSignInButton label="Continue with Google" />
+				<div className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-white/50">
+					<span className="h-px flex-1 bg-white/20" />
+					or
+					<span className="h-px flex-1 bg-white/20" />
+				</div>
 				<TextFormInput
 					name="email"
 					label="E-mail"
