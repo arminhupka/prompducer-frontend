@@ -20,6 +20,23 @@ function SiteJsonLd() {
 	);
 }
 
+/**
+ * Must run before any analytics snippet. The Google callback delivers the JWT
+ * in the URL fragment (`#token=...`); stash it and scrub the address bar
+ * before GA4 / Meta Pixel can read `location.href` and ship it to a third party.
+ * The route reads it back from `window.__googleAuthHash`.
+ */
+const GOOGLE_HASH_SCRUB = `(function(){try{var l=location;if(l.pathname==="/auth/google/callback"&&l.hash){window.__googleAuthHash=l.hash;history.replaceState(history.state,"",l.pathname)}}catch(e){}})();`;
+
+function GoogleHashScrub() {
+	return (
+		<script
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: static inline scrub script
+			dangerouslySetInnerHTML={{ __html: GOOGLE_HASH_SCRUB }}
+		/>
+	);
+}
+
 /** GA4 + Meta Pixel base tags. Rendered only when the env IDs are set. */
 function AnalyticsScripts() {
 	return (
@@ -67,6 +84,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<head>
+				<GoogleHashScrub />
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				{/* Blend the browser UI (address bar / status bar) into the dark app

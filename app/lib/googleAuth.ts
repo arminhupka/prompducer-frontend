@@ -1,5 +1,12 @@
 import { getMachineId } from "~/lib/machineId";
 
+declare global {
+	interface Window {
+		/** URL fragment stashed by the inline script in root.tsx on the callback route. */
+		__googleAuthHash?: string;
+	}
+}
+
 /** Full URL that starts the Google OAuth flow on the API. */
 export const googleSignInUrl = async (): Promise<string> => {
 	const machineId = await getMachineId();
@@ -10,6 +17,8 @@ const GOOGLE_ERROR_MESSAGES: Record<string, string> = {
 	access_denied: "Google sign-in was cancelled.",
 	google_email_unverified: "Your Google email is not verified.",
 	state_mismatch: "Sign-in expired. Please try again.",
+	google_account_conflict:
+		"This email is already linked to a different Google account. Sign in with your email and password, or use that Google account.",
 };
 
 const GOOGLE_ERROR_FALLBACK = "Google sign-in failed. Please try again.";
