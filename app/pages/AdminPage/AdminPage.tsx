@@ -206,19 +206,13 @@ const OverviewTab = () => {
 					icon={<Activity className="size-4" />}
 					label="Generations"
 					value={d.generations.total.toLocaleString()}
-					hint={`${d.generations.finished} done · ${d.generations.failed} failed · ${d.generations.pending} pending`}
+					hint={`${d.generations.soundsCharged.toLocaleString()} sounds charged · ${d.generations.reserved} awaiting report`}
 				/>
 				<StatCard
 					icon={<CreditCard className="size-4" />}
-					label="Failed generations"
-					value={d.generations.failed.toLocaleString()}
-					hint={
-						d.generations.total > 0
-							? `${Math.round(
-									(d.generations.failed / d.generations.total) * 100,
-								)}% of all runs`
-							: "-"
-					}
+					label="Credits refunded"
+					value={d.generations.creditsRefunded.toLocaleString()}
+					hint={`${d.generations.refundCapped} generation(s) hit the refund limit`}
 				/>
 			</div>
 

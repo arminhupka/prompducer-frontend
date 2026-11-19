@@ -10,11 +10,15 @@ export type AdminOverview = {
 	credits: { consumed: number };
 	generations: {
 		total: number;
-		finished: number;
-		failed: number;
-		pending: number;
+		settled: number;
+		expired: number;
+		reserved: number;
+		soundsCharged: number;
+		creditsRefunded: number;
+		refundCapped: number;
 	};
 	generationsDaily: { date: string; count: number }[];
+	recentGenerations: AdminGeneration[];
 	funnel: { signedUp: number; generated: number; subscribed: number };
 	planDistribution: { name: string; count: number }[];
 	signups: { date: string; count: number }[];
@@ -40,12 +44,19 @@ export type AdminUsersPage = {
 	pageSize: number;
 };
 
+// One Generate in the plugin (plugin_generations registry).
 export type AdminGeneration = {
 	id: string;
-	prompt: string;
-	status: string;
 	createdAt: string;
-	authorEmail: string | null;
+	userId: string;
+	email: string | null;
+	prompts: string[];
+	layers: number;
+	produced: number | null;
+	charged: number | null;
+	refunded: number;
+	refundCapped: boolean;
+	status: "reserved" | "settled" | "expired";
 };
 
 export type AdminSubscription = {
@@ -135,14 +146,16 @@ export const useAssignPlan = () =>
 		},
 	});
 
-export const useAdminGenerations = (page: number) =>
+export const useAdminGenerations = (page: number, refundCappedOnly = false) =>
 	useQuery<{ items: AdminGeneration[]; total: number }>({
-		queryKey: ["admin", "generations", page],
+		queryKey: ["admin", "generations", page, refundCappedOnly],
 		queryFn: async () => {
 			const { data } = await apiClient.get<{
 				items: AdminGeneration[];
 				total: number;
-			}>("/admin/generations", { params: { page, pageSize: 25 } });
+			}>("/admin/generations", {
+				params: { page, pageSize: 25, refundCapped: refundCappedOnly ? "true" : undefined },
+			});
 			return data;
 		},
 	});
