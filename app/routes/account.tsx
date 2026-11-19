@@ -6,7 +6,7 @@ export function meta() {
 	return seo({
 		title: "Account",
 		path: "/account",
-		description: "Manage your prompts and subscription in SUMMONIC.",
+		description: "Manage your plan and credits in SUMMONIC.",
 		noindex: true,
 	});
 }

@@ -26,8 +26,8 @@ const LoginPage = () => {
 					SUMMONIC
 				</h1>
 				<p className="max-w-xl text-base leading-7 text-white/75">
-					Sign in to manage credits, review generated prompts, and keep your
-					sound history organized in one production-ready workspace.
+					Sign in to manage your plan and credits. Your sounds are generated
+					in the SUMMONIC plugin and stay on your computer.
 				</p>
 			</div>
 			<LoginForm />

@@ -23,7 +23,7 @@ const LoginFormContent = () => {
 					Sign in
 				</CardTitle>
 				<CardDescription className="text-white/68">
-					Manage your subscription and prompt history
+					Manage your subscription and credits
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="flex flex-col gap-5 px-6">
