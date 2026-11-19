@@ -17,6 +17,7 @@ export default [
 		route("/login", "routes/login.tsx"),
 		route("/reset-password", "routes/reset-password.tsx"),
 		route("/register", "routes/register.tsx"),
+		route("/auth/google/callback", "routes/auth-google-callback.tsx"),
 		route("/account", "routes/account.tsx", {}),
 		route("/admin", "routes/admin.tsx"),
 		route("/about", "routes/about.tsx"),

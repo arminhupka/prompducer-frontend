@@ -19,3 +19,9 @@ export const googleErrorMessage = (code: string | null): string | null => {
 	if (code === null) return null;
 	return GOOGLE_ERROR_MESSAGES[code] ?? GOOGLE_ERROR_FALLBACK;
 };
+
+/** Extracts the API token from a `#token=…` fragment; null when missing or empty. */
+export const readTokenFromHash = (hash: string): string | null => {
+	const token = new URLSearchParams(hash.replace(/^#/, "")).get("token");
+	return token ? token : null;
+};
